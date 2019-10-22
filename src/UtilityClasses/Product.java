@@ -1,3 +1,5 @@
+package UtilityClasses;
+
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -32,7 +34,7 @@ public abstract class Product
     protected void Submit()
     {
         String sqlQuery = "INSERT INTO [table](id, image, name, ...) VALUES (id, image, name, ...)";
-//        ProductDetails
+//        UtilityClasses.ProductDetails
     }
 
     /**

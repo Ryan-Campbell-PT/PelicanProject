@@ -1,3 +1,5 @@
+package UtilityClasses;
+
 public class ShoppingCart
 {
     private String uniqueCartId; //every cart will have their own id to recognize it in the db

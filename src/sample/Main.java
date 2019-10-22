@@ -21,8 +21,11 @@ import java.io.FileInputStream;
 
 public class Main extends Application {
 
+    public static Stage stage = null;
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage stage) throws Exception{
+        Main.stage = stage;
+
         Image image = new Image(new FileInputStream("images\\logo.png"));
         ImageView logo1 = new ImageView(image);
         ImageView logo2 = new ImageView(image);
@@ -55,7 +58,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event)
             {
-                new Controller(primaryStage);
+                new Controller(stage);
             }
         });
 
@@ -72,11 +75,11 @@ public class Main extends Application {
             public void handle(KeyEvent event)
             {
                 if(event.getCode() == KeyCode.ESCAPE)
-                    primaryStage.close();
+                    stage.close();
             }
         });
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        stage.setScene(scene);
+        stage.show();
 
     }
 

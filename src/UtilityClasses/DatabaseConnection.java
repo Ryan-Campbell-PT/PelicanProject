@@ -1,3 +1,5 @@
+package UtilityClasses;
+
 import java.sql.*;
 
 /**
@@ -25,7 +27,7 @@ public class DatabaseConnection
         return connection;
     }
 
-    static ResultSet RunSqlCommand(String sql)
+    public static ResultSet RunSqlCommand(String sql)
     {
         ResultSet result = null;
         try

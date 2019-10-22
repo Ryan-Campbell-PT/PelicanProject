@@ -1,5 +1,7 @@
+package UtilityClasses;
+
 /**
- * Ryan) Actor will be any class that regular humans will use to interact with the website
+ * Ryan) UtilityClasses.Actor will be any class that regular humans will use to interact with the website
  */
 public interface Actor
 {

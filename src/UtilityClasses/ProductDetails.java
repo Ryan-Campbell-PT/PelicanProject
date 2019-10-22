@@ -1,14 +1,13 @@
-import com.sun.deploy.util.IconEncoder;
+package UtilityClasses;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.sql.*;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * I (Ryan) assume that ProductDetails will be used as a middle man between the user and the database, where you pass
- * in the item you want to update, and ProductDetails will change the information necessary.
+ * I (Ryan) assume that UtilityClasses.ProductDetails will be used as a middle man between the user and the database, where you pass
+ * in the item you want to update, and UtilityClasses.ProductDetails will change the information necessary.
  * I viewed this as a singleton/static class that would be accessed anywhere in the project to update the item anywhere necessary
  */
 public class ProductDetails
@@ -42,7 +41,7 @@ public class ProductDetails
 
     /**
      * this function will be used to add values to the database, for an object that is using
-     * parameters/information that isnt generic to Product (id, name, image)
+     * parameters/information that isnt generic to UtilityClasses.Product (id, name, image)
      * @param productId the productId that will be used to update the information
      * @param parameterName what the name of the value will be in the database
      * @param parameterValue the actual information for that value
@@ -82,7 +81,7 @@ public class ProductDetails
     }
 
     /**
-     * assuming every DisplayItem has their own tag list, this will return it, in uses like tag searching
+     * assuming every UtilityClasses.DisplayItem has their own tag list, this will return it, in uses like tag searching
      */
     ArrayList<String> ShowItemTags(Product i) throws SQLException
     {
