@@ -14,7 +14,7 @@ public class DatabaseConnection
     //sets up the connection to our private Oracle Autonomous Database. Will later need to be updated to handle user name + password entry
 
     //Must be run before each SQL command / start of instance
-    private static Connection getConnection()
+    protected static Connection getConnection()
     {
         if(conn == null)
         {
@@ -38,6 +38,7 @@ public class DatabaseConnection
         {
             PreparedStatement p = getConnection().prepareStatement(sql);
             result = p.executeQuery();
+            conn.close();
         }
 
         catch(SQLException e)
@@ -49,7 +50,7 @@ public class DatabaseConnection
         return result;
     }
 
-    //Must be run after each RunSqlCommand / end of SQL block
+    //Must be run after connection is done being used
     public static void CloseConnection(){
         try {
             conn.close();
@@ -59,4 +60,5 @@ public class DatabaseConnection
         }
 
     }
+
 }

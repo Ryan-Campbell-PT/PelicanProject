@@ -13,8 +13,9 @@ public class Customer implements Actor
      */
     private Customer(String username, String password)
     {
-        ResultSet uniqueCartId = null; ResultSet uniqueCustomerId = null;
-        String sql = null;
+        ResultSet uniqueCartId;
+        ResultSet uniqueCustomerId;
+        String sql;
         String createdCustomerId = null; String createdCartId = null;
         try
         {
@@ -57,7 +58,9 @@ public class Customer implements Actor
     public boolean Signup(String username, String password)
     {
         String sql = "SELECT username FROM [database] WHERE username = " + username;
+
         ResultSet resultSet = DatabaseConnection.RunSqlCommand(sql);
+
         try
         {
             if (!resultSet.next()) //the query returned nothing, so its a valid query
@@ -91,7 +94,7 @@ public class Customer implements Actor
 
     }
 
-    boolean AddToCart(Product p)
+    boolean AddToCart(Product p, int quant)
     {
         return false;
     }

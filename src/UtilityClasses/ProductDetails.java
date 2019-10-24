@@ -15,7 +15,7 @@ public class ProductDetails
     /**
      * this is the connection to the database that will be used throughout the class
      */
-    private Connection connection;
+    private Connection connection = null;
 
     private ProductDetails()
     {
@@ -23,10 +23,10 @@ public class ProductDetails
         // sql database stuff
         try
         {
-            connection = DriverManager.getConnection("stuff for database", "username", "password");
+            connection = DatabaseConnection.getConnection();
         } catch (Exception e)
         {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
     }
@@ -94,6 +94,6 @@ public class ProductDetails
         //should only execute once
         tagsFromSQL = result.getString(1);
 
-        return new ArrayList<String>(Arrays.asList(tagsFromSQL.split("whatever the split would be")));
+        return new ArrayList<>(Arrays.asList(tagsFromSQL.split("whatever the split would be")));
     }
 }
