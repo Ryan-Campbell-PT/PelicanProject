@@ -10,13 +10,15 @@ public class DatabaseConnection
 {
     private static Connection connection;
 
+    private static final String DB_URL = "jdbc:oracle:thin:@DB201910211444_medium?TNS_ADMIN=/src/Wallet_DB201910211444";
+//jdbc:oracle:thin:@dbname_medium?TNS_ADMIN=/users/test/wallet_dbname/"
     private static Connection getConnection()
     {
         if(connection == null)
         {
             try
             {
-                connection = DriverManager.getConnection("database url", "username", "password");
+                connection = DriverManager.getConnection(DB_URL, "ADMIN", "ThisIsAGroupProject394!");
             }
             catch(SQLException e)
             {
