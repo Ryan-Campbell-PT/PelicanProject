@@ -8,17 +8,19 @@ import java.sql.*;
  */
 public class DatabaseConnection
 {
-    private static Connection connection;
+    private static Connection conn = null;
 
     private static final String DB_URL = "jdbc:oracle:thin:@DB201910211444_medium?TNS_ADMIN=/src/Wallet_DB201910211444";
-//jdbc:oracle:thin:@dbname_medium?TNS_ADMIN=/users/test/wallet_dbname/"
+    //sets up the connection to our private Oracle Autonomous Database. Will later need to be updated to handle user name + password entry
+
+    //Must be run before each SQL command / start of instance
     private static Connection getConnection()
     {
-        if(connection == null)
+        if(conn == null)
         {
             try
             {
-                connection = DriverManager.getConnection(DB_URL, "ADMIN", "ThisIsAGroupProject394!");
+                conn = DriverManager.getConnection(DB_URL, "ADMIN", "ThisIsAGroupProject394!");
             }
             catch(SQLException e)
             {
@@ -26,7 +28,7 @@ public class DatabaseConnection
             }
         }
 
-        return connection;
+        return conn;
     }
 
     public static ResultSet RunSqlCommand(String sql)
@@ -37,11 +39,24 @@ public class DatabaseConnection
             PreparedStatement p = getConnection().prepareStatement(sql);
             result = p.executeQuery();
         }
+
         catch(SQLException e)
         {
             e.printStackTrace();
         }
 
+        //for updates/deletes, expected result is an empty result set
         return result;
+    }
+
+    //Must be run after each RunSqlCommand / end of SQL block
+    public static void CloseConnection(){
+        try {
+            conn.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }
