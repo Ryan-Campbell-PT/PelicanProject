@@ -1,29 +1,128 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.Serializable;
 
 public class Main extends Application {
 
     public static Stage stage = null;
     @Override
     public void start(Stage stage) throws Exception{
+
+        newBoi(stage);
+    }
+/*
+        Button centerB = new Button("this be the center");
+        Button topB = new Button("this be top");
+        Button bottomB = new Button("this be bottom");
+        Button leftB = new Button("this be the left");
+        Button rightB = new Button("this be right");
+
+ */
+    void newBoi(Stage stage)
+    {
+        //all these helper functions are just to make this function a lot less crowded
+        BorderPane pane = new BorderPane(getCenter(), getTop(), null, null, getLeft());
+        Scene scene = new Scene(pane,
+                Toolkit.getDefaultToolkit().getScreenSize().width / 2.0,
+                Toolkit.getDefaultToolkit().getScreenSize().height / 2.0);
+
+        scene.setOnKeyPressed(event -> { if(event.getCode() == KeyCode.ESCAPE) stage.close(); });
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    Node getCenter()
+    {
+        GridPane pp = new GridPane();
+        pp.setAlignment(Pos.CENTER);
+        pp.setHgap(30);
+        pp.setVgap(30);
+
+        try
+        {
+            ImageView i1 = new ImageView(new Image(new FileInputStream("images\\logo.png")));
+            ImageView i2 = new ImageView(new Image(new FileInputStream("images\\javaFXPanes.png")));
+
+            //these change the size of the image
+//            i1.setFitWidth(i1.getImage().getWidth() / 2);
+//            i1.setFitHeight(i1.getImage().getHeight() / 2);
+            Button b1 = new Button("Look at this button", i1);
+            Button b2 = new Button("They are soo cool", i2);
+
+            pp.add(b1, 0, 0);
+            pp.add(b2, 0, 1);
+        } catch(Exception e) { e.printStackTrace(); }
+
+        return pp;
+    }
+
+    Node getLeft()
+    {
+        Text t1 = new Text("we could make ");
+        Text t2 = new Text("into categories");
+        Text t3 = new Text("that can be ");
+        Text t4 = new Text("searched on");
+        VBox categories = new VBox(20, t1, t2, t3, t4);
+        categories.setPadding(new Insets(0, 20, 0, 0));
+        return categories;
+    }
+
+    Node getTop()
+    {
+        HBox topPanel = null;
+        try
+        {
+            TextField searchBar = new TextField();
+            searchBar.setOnAction(new EventHandler<ActionEvent>()
+            {
+                @Override
+                public void handle(ActionEvent event)
+                {
+                    System.out.println("hi there friend");
+                }
+            });
+
+            Button searchButton = new Button("Press to search");
+            ImageView userProfilePic = new ImageView(
+                    new Image(
+                            new FileInputStream("images\\googleImage.png")));
+            Button userProfileButton = new Button("this button could be used as their avatar image", userProfilePic);
+            userProfileButton.setAlignment(Pos.TOP_RIGHT);
+
+            topPanel = new HBox(10, searchBar, searchButton, userProfileButton);
+            topPanel.setPadding(new Insets(0, 0, 40, 0));
+
+        } catch(Exception e) { e.printStackTrace(); }
+        return topPanel;
+    }
+
+    void prevBoi(Stage stage) throws FileNotFoundException
+    {
         Main.stage = stage;
 
         Image image = new Image(new FileInputStream("images\\logo.png"));
@@ -82,6 +181,7 @@ public class Main extends Application {
         stage.show();
 
     }
+
 
 
     public static void main(String[] args) {
