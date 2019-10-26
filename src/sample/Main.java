@@ -3,12 +3,9 @@ package sample;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -21,29 +18,22 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import sun.plugin.javascript.navig.Anchor;
 
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.Serializable;
 
 public class Main extends Application {
 
     public static Stage stage = null;
     @Override
     public void start(Stage stage) throws Exception{
-
-        newBoi(stage);
+Main.stage = stage;
+        generalStructure(stage);
     }
-/*
-        Button centerB = new Button("this be the center");
-        Button topB = new Button("this be top");
-        Button bottomB = new Button("this be bottom");
-        Button leftB = new Button("this be the left");
-        Button rightB = new Button("this be right");
 
- */
-    void newBoi(Stage stage)
+    void generalStructure(Stage stage)
     {
         //all these helper functions are just to make this function a lot less crowded
         BorderPane pane = new BorderPane(getCenter(), getTop(), null, null, getLeft());
@@ -56,7 +46,7 @@ public class Main extends Application {
         stage.show();
     }
 
-    Node getCenter()
+    private Node getCenter()
     {
         GridPane pp = new GridPane();
         pp.setAlignment(Pos.CENTER);
@@ -65,6 +55,7 @@ public class Main extends Application {
 
         try
         {
+
             ImageView i1 = new ImageView(new Image(new FileInputStream("images\\logo.png")));
             ImageView i2 = new ImageView(new Image(new FileInputStream("images\\javaFXPanes.png")));
 
@@ -81,7 +72,7 @@ public class Main extends Application {
         return pp;
     }
 
-    Node getLeft()
+    private Node getLeft()
     {
         Text t1 = new Text("we could make ");
         Text t2 = new Text("into categories");
@@ -92,7 +83,7 @@ public class Main extends Application {
         return categories;
     }
 
-    Node getTop()
+    private Node getTop()
     {
         HBox topPanel = null;
         try
@@ -181,8 +172,6 @@ public class Main extends Application {
         stage.show();
 
     }
-
-
 
     public static void main(String[] args) {
         launch(args);
