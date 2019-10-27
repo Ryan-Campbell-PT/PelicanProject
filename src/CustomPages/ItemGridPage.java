@@ -25,17 +25,25 @@ import java.sql.SQLException;
  */
 public class ItemGridPage
 {
-    GridPane pane = new GridPane();
+    public GridPane pane = new GridPane();
 
-    public ItemGridPage()
+    public ItemGridPage(String searchTerm)
     {
         pane.setVgap(30); pane.setHgap(30);
-        setupPage();
+        setupPage(searchTerm);
     }
 
-    private void setupPage()
+    private void setupPage(String searchTerm)
     {
-        String sql = "SELECT ItemImage, ItemName, ItemCost, uniqueId FROM itemdetails";
+        String sql;
+        //if the search term is null, then its just the generic grid view, with everything showing
+        if(searchTerm == null)
+            sql = "SELECT ItemImage, ItemName, ItemCost, uniqueId FROM itemdetails";
+        else //if its a specific search term, then we are just going to display what we are looking for
+            sql = "SELECT ItemImage, ItemName, ItemCost, uniqueId \n" +
+                    "FROM itemdetails \n" +
+                    "where ItemName like '%" + searchTerm + "%';"; //this is pretty much a Contains()
+
         ResultSet resultSet = DatabaseConnection.RunSqlExecuteCommand(sql);
 
         int col = 0, row = 0;

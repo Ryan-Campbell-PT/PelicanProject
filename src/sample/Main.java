@@ -26,23 +26,31 @@ import javax.xml.crypto.Data;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Main extends Application {
 
     public static Stage stage = null;
+    BorderPane pane;
+
     @Override
     public void start(Stage stage) throws Exception{
-Main.stage = stage;
+        Main.stage = stage;
 //        generalStructure(stage);
-new ItemGridPage();
+        generalStructure(stage, null);
+
     }
 
-    void generalStructure(Stage stage)
+    void generalStructure(Stage stage, Pane p)
     {
         //all these helper functions are just to make this function a lot less crowded
-        BorderPane pane = new BorderPane(getCenter(), getTop(), null, null, getLeft());
+        if(p == null)
+            pane = new BorderPane(new ItemGridPage(null).pane, getTop(), null, null, getLeft());
+        else
+            pane = new BorderPane(p, getTop(), null, null, getLeft());
+
         Scene scene = new Scene(pane,
                 Toolkit.getDefaultToolkit().getScreenSize().width / 2.0,
                 Toolkit.getDefaultToolkit().getScreenSize().height / 2.0);
@@ -80,12 +88,26 @@ new ItemGridPage();
 
     private Node getLeft()
     {
-        Text t1 = new Text("we could make ");
-        Text t2 = new Text("into categories");
-        Text t3 = new Text("that can be ");
-        Text t4 = new Text("searched on");
-        VBox categories = new VBox(20, t1, t2, t3, t4);
+//        Text t1 = new Text("we could make ");
+//        Text t2 = new Text("into categories");
+//        Text t3 = new Text("that can be ");
+//        Text t4 = new Text("searched on");
+        VBox categories = new VBox(20);
         categories.setPadding(new Insets(0, 20, 0, 0));
+
+        String sql = "select distinct ItemCategory from itemcategories";
+
+        ResultSet resultSet = DatabaseConnection.RunSqlExecuteCommand(sql);
+        try
+        {
+            while(resultSet.next())
+            {
+                String category = resultSet.getString("ItemCategory");
+                Text t = new Text(category);
+                categories.getChildren().add(t);
+            }
+        } catch(Exception e) { e.printStackTrace(); }
+
         return categories;
     }
 
@@ -100,7 +122,7 @@ new ItemGridPage();
                 @Override
                 public void handle(ActionEvent event)
                 {
-                    System.out.println("hi there friend");
+                    generalStructure(Main.stage, new ItemGridPage(searchBar.getCharacters().toString()).pane);
                 }
             });
 
