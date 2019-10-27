@@ -24,13 +24,14 @@ public class ItemDescriptionPage
     {
         try
         {
-            String sql = "SELECT * FROM [itemdatabase] WHERE uniqueid = " + uniqueId;
-            ResultSet resultSet = DatabaseConnection.RunSqlCommand(sql);
-
-            String name = resultSet.getString("name");
+            String sql = "SELECT * FROM itemdetails WHERE uniqueid = " + uniqueId;
+            ResultSet resultSet = DatabaseConnection.RunSqlExecuteCommand(sql);
+            resultSet.next(); //for some reason this is needed to access the info
+            String name = resultSet.getString("ItemName");
             String itemId = resultSet.getString("uniqueId");
-            double cost = resultSet.getDouble("cost"); //maybe string depending on our database
-            byte[] image = resultSet.getBytes("image"); //no idea how this will be done
+            String cost = resultSet.getString("ItemCost");
+            String image = resultSet.getString("ItemImage");
+            String description = resultSet.getString("ItemDescription");
             //etc...
         } catch(SQLException e) { e.printStackTrace(); }
     }

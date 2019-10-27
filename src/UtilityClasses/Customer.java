@@ -26,12 +26,12 @@ public class Customer implements Actor
                         "FROM [customerdatabase] \n" +
                         "WHERE \"random_num\" NOT IN (SELECT customerid FROM [customerdatabase])\n" +
                         "LIMIT 1";
-                uniqueCustomerId = DatabaseConnection.RunSqlCommand(sql);
+                uniqueCustomerId = DatabaseConnection.RunSqlExecuteCommand(sql);
                 sql = "SELECT FLOOR(RAND() * 99999) AS random_num\n" +
                         "FROM [cartdatabase] \n" +
                         "WHERE \"random_num\" NOT IN (SELECT cartid FROM [cartdatabase])\n" +
                         "LIMIT 1";
-                uniqueCartId = DatabaseConnection.RunSqlCommand(sql);
+                uniqueCartId = DatabaseConnection.RunSqlExecuteCommand(sql);
             } while (!uniqueCartId.next() && !uniqueCustomerId.next());
             createdCustomerId = uniqueCustomerId.getString("random_num");
             createdCartId = uniqueCartId.getString("random_num");
@@ -59,7 +59,7 @@ public class Customer implements Actor
     {
         String sql = "SELECT username FROM [database] WHERE username = " + username;
 
-        ResultSet resultSet = DatabaseConnection.RunSqlCommand(sql);
+        ResultSet resultSet = DatabaseConnection.RunSqlExecuteCommand(sql);
 
         try
         {

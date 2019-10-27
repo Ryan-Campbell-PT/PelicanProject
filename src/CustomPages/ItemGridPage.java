@@ -29,29 +29,34 @@ public class ItemGridPage
 
     public ItemGridPage()
     {
-        pane.setPadding(new Insets(30, 10, 30, 10));
+        pane.setVgap(30); pane.setHgap(30);
         setupPage();
     }
 
     private void setupPage()
     {
-        String sql = "SELECT image, name, cost, uniqueId FROM [itemdatabase]";
-        ResultSet resultSet = DatabaseConnection.RunSqlCommand(sql);
+        String sql = "SELECT ItemImage, ItemName, ItemCost, uniqueId FROM itemdetails";
+        ResultSet resultSet = DatabaseConnection.RunSqlExecuteCommand(sql);
 
         int col = 0, row = 0;
         try
         {
             for(int count = 0; resultSet.next() && count < 20; count++) //just display 20 at most for now
             {
-                String name = resultSet.getString("name");
+                String name = resultSet.getString("ItemName");
                 String itemId = resultSet.getString("uniqueId");
-                double cost = resultSet.getDouble("cost"); //maybe string depending on our database
-                byte[] image = resultSet.getBytes("image"); //no idea how this will be done
+                String cost = resultSet.getString("ItemCost"); //maybe string depending on our database
+                String image = resultSet.getString("ItemImage"); //no idea how this will be done
 
-                //this is just a placeholder until we figure out how to get images from database
-                ImageView tmpImage = new ImageView(new Image(new FileInputStream("images\\logo.png")));
+                ImageView tmpImage;
+                if(image != null && !image.isEmpty())
+                    tmpImage = new ImageView(new Image(new FileInputStream(image)));
+                else
+                    tmpImage = new ImageView(new Image(new FileInputStream("images\\logo.png")));
 
-                Button button = new Button(name, tmpImage);
+                tmpImage.setFitHeight(300); tmpImage.setFitWidth(300); //make all the images the same size
+
+                Button button = new Button(name + "\t\t $" + cost, tmpImage);
                 button.setContentDisplay(ContentDisplay.TOP);
                 button.setOnMouseClicked(new EventHandler<MouseEvent>()
                 {

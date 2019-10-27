@@ -10,7 +10,7 @@ public class DatabaseConnection
 {
     private static Connection conn = null;
 
-    private static final String DB_URL = "jdbc:oracle:thin:@DB201910211444_medium?TNS_ADMIN=/src/Wallet_DB201910211444";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/testdatabase";
     //sets up the connection to our private Oracle Autonomous Database. Will later need to be updated to handle user name + password entry
 
     //Must be run before each SQL command / start of instance
@@ -20,9 +20,10 @@ public class DatabaseConnection
         {
             try
             {
-                conn = DriverManager.getConnection(DB_URL, "ADMIN", "ThisIsAGroupProject394!");
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn = DriverManager.getConnection(DB_URL, "root", "YouAreMyFriend");
             }
-            catch(SQLException e)
+            catch(Exception e)
             {
                 e.printStackTrace();
             }
@@ -31,14 +32,13 @@ public class DatabaseConnection
         return conn;
     }
 
-    public static ResultSet RunSqlCommand(String sql)
+    public static ResultSet RunSqlExecuteCommand(String sql)
     {
         ResultSet result = null;
         try
         {
             PreparedStatement p = getConnection().prepareStatement(sql);
             result = p.executeQuery();
-            conn.close();
         }
 
         catch(SQLException e)
@@ -48,6 +48,32 @@ public class DatabaseConnection
 
         //for updates/deletes, expected result is an empty result set
         return result;
+    }
+
+    /**
+     * running a sql command to get something back, like select * from database,
+     * is different than running something to create something, like create table ding,
+     * so this will be used to allow for creation commands, and the above is to get something back
+     * @param sql
+     * @return whether it succeeded
+     */
+    public static boolean RunSqlCreateCommand(String sql)
+    {
+        boolean ret;
+        try
+        {
+            PreparedStatement p = getConnection().prepareStatement(sql);
+            p.execute(sql);
+            ret = true;
+        }
+
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            ret = false;
+        }
+
+        return ret;
     }
 
     //Must be run after connection is done being used

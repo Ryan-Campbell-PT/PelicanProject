@@ -1,5 +1,7 @@
 package sample;
 
+import CustomPages.ItemGridPage;
+import UtilityClasses.DatabaseConnection;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,9 +22,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sun.plugin.javascript.navig.Anchor;
 
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Main extends Application {
 
@@ -30,7 +35,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception{
 Main.stage = stage;
-        generalStructure(stage);
+//        generalStructure(stage);
+new ItemGridPage();
     }
 
     void generalStructure(Stage stage)
@@ -175,5 +181,19 @@ Main.stage = stage;
 
     public static void main(String[] args) {
         launch(args);
+//        DatabaseConnection.RunSqlCreateCommand("alter table itemdetails add UniqueId varchar(255);");
+//        ResultSet s = DatabaseConnection.RunSqlExecuteCommand("select * from ItemDetails");
+//        try
+//        {
+//            while (s.next())
+//            {
+//                System.out.println(s.getString("ItemName"));
+//
+//            }
+//        } catch (SQLException e)
+//        {
+//            e.printStackTrace();
+//        }
+////        DatabaseConnection.RunSqlCommand("create database testDatabase");
     }
 }
