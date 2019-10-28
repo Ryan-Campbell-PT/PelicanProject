@@ -34,7 +34,9 @@ public class DatabaseConnection
 
         return conn;
     }
-
+    /*
+        Run this to get a result set back from a query
+    */
     public static ResultSet RunSqlExecuteCommand(String sql)
     {
         ResultSet result = null;
