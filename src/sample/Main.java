@@ -95,14 +95,14 @@ public class Main extends Application {
         VBox categories = new VBox(20);
         categories.setPadding(new Insets(0, 20, 0, 0));
 
-        String sql = "select distinct ItemCategory from itemcategories";
+        String sql = "select distinct product_type from product_category";
 
         ResultSet resultSet = DatabaseConnection.RunSqlExecuteCommand(sql);
         try
         {
             while(resultSet.next())
             {
-                String category = resultSet.getString("ItemCategory");
+                String category = resultSet.getString("product_type");
                 Text t = new Text(category);
                 categories.getChildren().add(t);
             }
@@ -203,7 +203,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-//        DatabaseConnection.RunSqlCreateCommand("alter table itemdetails add UniqueId varchar(255);");
         try
         {
             ResultSet s = DatabaseConnection.RunSqlExecuteCommand("select * from user_information");
@@ -216,6 +215,5 @@ public class Main extends Application {
         {
             e.printStackTrace();
         }
-////        DatabaseConnection.RunSqlCommand("create database testDatabase");
     }
 }

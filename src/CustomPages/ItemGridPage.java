@@ -38,11 +38,11 @@ public class ItemGridPage
         String sql;
         //if the search term is null, then its just the generic grid view, with everything showing
         if(searchTerm == null)
-            sql = "SELECT ItemImage, ItemName, ItemCost, uniqueId FROM itemdetails";
+            sql = "SELECT p_name, price, p_id FROM product_inventory";
         else //if its a specific search term, then we are just going to display what we are looking for
-            sql = "SELECT ItemImage, ItemName, ItemCost, uniqueId \n" +
-                    "FROM itemdetails \n" +
-                    "where ItemName like '%" + searchTerm + "%';"; //this is pretty much a Contains()
+            sql = "SELECT p_name, price, p_id \n" +
+                    "FROM product_inventory \n" +
+                    "where p_name like '%" + searchTerm + "%';"; //this is pretty much a Contains()
 
         ResultSet resultSet = DatabaseConnection.RunSqlExecuteCommand(sql);
 
@@ -51,16 +51,17 @@ public class ItemGridPage
         {
             for(int count = 0; resultSet.next() && count < 20; count++) //just display 20 at most for now
             {
-                String name = resultSet.getString("ItemName");
-                String itemId = resultSet.getString("uniqueId");
-                String cost = resultSet.getString("ItemCost"); //maybe string depending on our database
-                String image = resultSet.getString("ItemImage"); //no idea how this will be done
+                String name = resultSet.getString("p_name");
+                String itemId = resultSet.getString("p_id");
+                String cost = resultSet.getString("price"); //maybe string depending on our database
+                //Need to figure out how to associate image and item
+               // String image = resultSet.getString("ItemImage"); //no idea how this will be done
 
-                ImageView tmpImage;
-                if(image != null && !image.isEmpty())
-                    tmpImage = new ImageView(new Image(new FileInputStream(image)));
-                else
-                    tmpImage = new ImageView(new Image(new FileInputStream("images\\logo.png")));
+                ImageView tmpImage = new ImageView(new Image( new FileInputStream("images/allBirdsShoe.png")));
+                //if(image != null && !image.isEmpty())
+                //    tmpImage = new ImageView(new Image(new FileInputStream(image)));
+               // else
+                //    tmpImage = new ImageView(new Image(new FileInputStream("images\\logo.png")));
 
                 tmpImage.setFitHeight(300); tmpImage.setFitWidth(300); //make all the images the same size
 
