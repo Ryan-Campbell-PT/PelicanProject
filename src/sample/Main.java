@@ -1,5 +1,6 @@
 package sample;
 
+import CustomPages.ItemDescriptionPage;
 import CustomPages.ItemGridPage;
 import UtilityClasses.DatabaseConnection;
 import javafx.application.Application;
@@ -20,20 +21,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import sun.plugin.javascript.navig.Anchor;
 
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.Serializable;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Main extends Application {
 
     public static Stage stage = null;
-    BorderPane pane;
+    static BorderPane pane;
 
     @Override
     public void start(Stage stage) throws Exception{
@@ -45,11 +42,14 @@ public class Main extends Application {
 
     void generalStructure(Stage stage, Pane p)
     {
+        Main.pane = new BorderPane(null, getTop(), null, null, getLeft());
         //all these helper functions are just to make this function a lot less crowded
         if(p == null)
-            pane = new BorderPane(new ItemGridPage(null).pane, getTop(), null, null, getLeft());
+            setCenterPane(new ItemGridPage(null).pane);
         else
-            pane = new BorderPane(p, getTop(), null, null, getLeft());
+            setCenterPane(p);
+
+//        new ItemDescriptionPage("208299");
 
         Scene scene = new Scene(pane,
                 Toolkit.getDefaultToolkit().getScreenSize().width / 2.0,
@@ -58,6 +58,11 @@ public class Main extends Application {
         scene.setOnKeyPressed(event -> { if(event.getCode() == KeyCode.ESCAPE) stage.close(); });
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static void setCenterPane(Pane p)
+    {
+        Main.pane.setCenter(p);
     }
 
     private Node getCenter()
