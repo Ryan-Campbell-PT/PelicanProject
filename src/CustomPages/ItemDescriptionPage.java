@@ -1,8 +1,16 @@
 package CustomPages;
 
 import UtilityClasses.DatabaseConnection;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import sample.Main;
 
+import java.io.FileInputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -16,14 +24,63 @@ public class ItemDescriptionPage
     {
         try
         {
-            String sql = "SELECT * FROM [itemdatabase] WHERE uniqueid = " + uniqueId;
-            ResultSet resultSet = DatabaseConnection.RunSqlCommand(sql);
-
-            String name = resultSet.getString("name");
-            String itemId = resultSet.getString("uniqueId");
-            double cost = resultSet.getDouble("cost"); //maybe string depending on our database
-            byte[] image = resultSet.getBytes("image"); //no idea how this will be done
+            String sql = "SELECT * FROM product_inventory WHERE p_id = " + uniqueId;
+            ResultSet resultSet = DatabaseConnection.RunSqlExecuteCommand(sql);
+            resultSet.next(); //for some reason this is needed to access the info
+            String name = resultSet.getString("p_name");
+            String itemId = resultSet.getString("p_id");
+            String cost = resultSet.getString("price");
+        //    String image = resultSet.getString("ItemImage");
+            String description = resultSet.getString("p_desc");
             //etc...
         } catch(SQLException e) { e.printStackTrace(); }
+    }
+
+    private Node setupStructure()
+    {
+        /*
+        anchor panes allow for much more precise placing of Nodes, but because of that
+        they take a lot of work to set up
+        Im using one for the item description, so it allows for more unique look, then an obvious
+        grid system
+         */
+        AnchorPane pane = new AnchorPane();
+
+        try
+        {
+            ImageView itemImage = new javafx.scene.image.ImageView(
+                    new Image(new FileInputStream("images\\googleImage.png"))
+            );
+
+            //i dont really know how these anchor things work
+            AnchorPane.setTopAnchor(itemImage, 100.0);
+            AnchorPane.setLeftAnchor(itemImage, 500.0);
+            AnchorPane.setBottomAnchor(itemImage, 500.0);
+            AnchorPane.setRightAnchor(itemImage, 500.0);
+
+            Text itemName = new Text("Item name");
+            AnchorPane.setTopAnchor(itemName, 150.0);
+            AnchorPane.setLeftAnchor(itemName, 500.0);
+            AnchorPane.setBottomAnchor(itemName, 500.0);
+            AnchorPane.setRightAnchor(itemName, 500.0);
+
+            Text itemCost = new Text("cost: $20");
+            AnchorPane.setTopAnchor(itemCost, 200.0);
+            AnchorPane.setLeftAnchor(itemCost, 500.0);
+            AnchorPane.setBottomAnchor(itemCost, 500.0);
+            AnchorPane.setRightAnchor(itemCost, 500.0);
+
+            Text itemDescription = new Text("this is the item description \n im not sure why its up here");
+            AnchorPane.setTopAnchor(itemCost, 200.0);
+            AnchorPane.setLeftAnchor(itemCost, 500.0);
+            AnchorPane.setBottomAnchor(itemCost, 500.0);
+            AnchorPane.setRightAnchor(itemCost, 500.0);
+
+
+            pane.getChildren().addAll(itemImage, itemCost, itemName, itemDescription);
+
+        } catch(Exception e) { e.printStackTrace(); }
+
+        return pane;
     }
 }
