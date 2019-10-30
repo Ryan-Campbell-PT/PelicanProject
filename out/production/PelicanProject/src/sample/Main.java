@@ -208,7 +208,7 @@ public class Main extends Application {
             ResultSet s = DatabaseConnection.RunSqlExecuteCommand("select * from user_information");
             while (s.next())
             {
-                System.out.println(s.getString("user_id"));
+                System.out.println(s.getString("f_name") + " " + s.getString("l_name"));
 
             }
         } catch (SQLException e)
