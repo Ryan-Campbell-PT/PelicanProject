@@ -20,13 +20,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import sun.plugin.javascript.navig.Anchor;
 
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -209,7 +206,6 @@ public class Main extends Application {
             while (s.next())
             {
                 System.out.println(s.getString("f_name") + " " + s.getString("l_name"));
-
             }
         } catch (SQLException e)
         {
