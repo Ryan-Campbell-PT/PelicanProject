@@ -13,8 +13,9 @@ public class Customer implements Actor
      */
     private Customer(String username, String password)
     {
-        ResultSet uniqueCartId = null; ResultSet uniqueCustomerId = null;
-        String sql = null;
+        ResultSet uniqueCartId;
+        ResultSet uniqueCustomerId;
+        String sql;
         String createdCustomerId = null; String createdCartId = null;
         try
         {
@@ -25,12 +26,12 @@ public class Customer implements Actor
                         "FROM [customerdatabase] \n" +
                         "WHERE \"random_num\" NOT IN (SELECT customerid FROM [customerdatabase])\n" +
                         "LIMIT 1";
-                uniqueCustomerId = DatabaseConnection.RunSqlCommand(sql);
+                uniqueCustomerId = DatabaseConnection.RunSqlExecuteCommand(sql);
                 sql = "SELECT FLOOR(RAND() * 99999) AS random_num\n" +
                         "FROM [cartdatabase] \n" +
                         "WHERE \"random_num\" NOT IN (SELECT cartid FROM [cartdatabase])\n" +
                         "LIMIT 1";
-                uniqueCartId = DatabaseConnection.RunSqlCommand(sql);
+                uniqueCartId = DatabaseConnection.RunSqlExecuteCommand(sql);
             } while (!uniqueCartId.next() && !uniqueCustomerId.next());
             createdCustomerId = uniqueCustomerId.getString("random_num");
             createdCartId = uniqueCartId.getString("random_num");
@@ -57,7 +58,9 @@ public class Customer implements Actor
     public boolean Signup(String username, String password)
     {
         String sql = "SELECT username FROM [database] WHERE username = " + username;
-        ResultSet resultSet = DatabaseConnection.RunSqlCommand(sql);
+
+        ResultSet resultSet = DatabaseConnection.RunSqlExecuteCommand(sql);
+
         try
         {
             if (!resultSet.next()) //the query returned nothing, so its a valid query
@@ -91,7 +94,7 @@ public class Customer implements Actor
 
     }
 
-    boolean AddToCart(Product p)
+    boolean AddToCart(Product p, int quant)
     {
         return false;
     }
