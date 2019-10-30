@@ -10,7 +10,7 @@ public class DatabaseConnection
 {
     private static Connection conn = null;
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/testdatabase";
+    private static final String DB_URL = "jdbc:mysql://3.14.159.254:3306/software_projects";
     //sets up the connection to our private Oracle Autonomous Database. Will later need to be updated to handle user name + password entry
 
     //Must be run before each SQL command / start of instance
@@ -20,8 +20,11 @@ public class DatabaseConnection
         {
             try
             {
+                System.out.println ("Finding driver");
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                conn = DriverManager.getConnection(DB_URL, "root", "YouAreMyFriend");
+                System.out.println ("Connecting to the Database");
+                conn = DriverManager.getConnection(DB_URL, "qreidy", "Pelican");
+                System.out.println ("Connected");
             }
             catch(Exception e)
             {
@@ -31,7 +34,9 @@ public class DatabaseConnection
 
         return conn;
     }
-
+    /*
+        Run this to get a result set back from a query
+    */
     public static ResultSet RunSqlExecuteCommand(String sql)
     {
         ResultSet result = null;
