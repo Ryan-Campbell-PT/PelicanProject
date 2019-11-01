@@ -21,7 +21,9 @@ public class UserProfile{
         sql_result = DatabaseConnection.RunSqlExecuteCommand(sql);
 
         if(sql_result == null) {
-//          User image not found, given default image
+            /*
+            User image not found, given default image
+            */
             try {
                 url = new URL("eggserver.info/public/default_user_image.png");
                 icon = ImageIO.read(url);
