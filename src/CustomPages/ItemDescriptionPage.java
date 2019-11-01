@@ -41,17 +41,17 @@ public class ItemDescriptionPage
     {
         try
         {
-            String sql = "SELECT * FROM itemdetails WHERE uniqueid = " + uniqueId;
+            String sql = "SELECT * FROM product_inventory WHERE p_id = " + uniqueId;
             ResultSet resultSet = DatabaseConnection.RunSqlExecuteCommand(sql);
             resultSet.next(); //for some reason this is needed to access the info
-            itemName = resultSet.getString("ItemName");
-            itemUniqueId = resultSet.getString("uniqueId");
-            itemCost = resultSet.getString("ItemCost");
-            String image = resultSet.getString("ItemImage");
-            itemImage = new ImageView(new Image(new FileInputStream(image)));
-            itemDescription = resultSet.getString("ItemDescription");
+            itemName = resultSet.getString("p_name");
+            itemUniqueId = resultSet.getString("p_id");
+            itemCost = resultSet.getString("price");
+//            String image = resultSet.getString("ItemImage");
+//            itemImage = new ImageView(new Image(new FileInputStream(image)));
+            itemDescription = resultSet.getString("p_desc");
             //etc...
-        } catch(SQLException | FileNotFoundException e) { e.printStackTrace(); }
+        } catch(Exception e) { e.printStackTrace(); }
         setupStructure();
     }
 
@@ -102,7 +102,7 @@ public class ItemDescriptionPage
 
             pane.getChildren().addAll(itemImage, itemCost, itemName, itemDescription);
 */
-            pane.getChildren().addAll(itemImage, nameAndCostText, descriptionText, addToCartButton);
+            pane.getChildren().addAll(/*itemImage, */nameAndCostText, descriptionText, addToCartButton);
             pane.setAlignment(Pos.TOP_CENTER);
             Main.setCenterPane(this.pane);
 
@@ -113,11 +113,11 @@ public class ItemDescriptionPage
 
     private void addToCart()
     {
-        String sql = "INSERT INTO shoppingcarttmp (userid, itemid, DateTimeAdded) \n" +
+        /*String sql = "INSERT INTO shoppingcarttmp (userid, itemid, DateTimeAdded) \n" +
                 "VALUES (floor(rand() * (999999 - 100000) + 100000), " + this.itemUniqueId +
                 ", CURRENT_TIME() ); ";
         if(DatabaseConnection.RunSqlCreateCommand(sql))
-            System.out.println("Successfully executed AddToCart");
+            System.out.println("Successfully executed AddToCart");*/
 
     }
 }

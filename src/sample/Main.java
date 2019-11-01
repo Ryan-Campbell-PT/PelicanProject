@@ -208,17 +208,17 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        try
-        {
-            ResultSet s = DatabaseConnection.RunSqlExecuteCommand("select * from user_information");
-            while (s.next())
-            {
-                System.out.println(s.getString("user_id"));
-
-            }
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+//        try
+//        {
+//            ResultSet s = DatabaseConnection.RunSqlExecuteCommand("select * from user_information");
+//            while (s.next())
+//            {
+//                System.out.println(s.getString("user_id"));
+//
+//            }
+//        } catch (SQLException e)
+//        {
+//            e.printStackTrace();
+//        }
     }
 }
