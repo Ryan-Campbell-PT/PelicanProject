@@ -1,5 +1,8 @@
 package UtilityClasses;
 
+import java.sql.PreparedStatement;
+import java.util.Random;
+
 public class ModifyDatabase{
     /*
     Purpose of this class is to handle all modifications to the database.
@@ -10,4 +13,28 @@ public class ModifyDatabase{
         verifyItsOk(i)
         i.execute()
      */
+
+    private int newProductKey() {
+        int key;
+        Random ran = new Random();
+/*
+        while (true) {
+            key = ran.nextInt(10000);
+            String sql = "SELECT p_id FROM product_inventory WHERE EXISTS "
+        }
+*/
+        //This was the janky solution that was hilarious so we're keeping it in
+
+        while (true) {
+            key = ran.nextInt(10000);
+            String sql = "SELECT p_id FROM product_inventory WHERE p_id = " + key;
+            try {
+                PreparedStatement p = DatabaseConnection.getConnection().prepareStatement(sql);
+                p.execute();
+            } catch (Exception e) {
+                break;
+            }
+        }
+        return key;
+    }
 }
