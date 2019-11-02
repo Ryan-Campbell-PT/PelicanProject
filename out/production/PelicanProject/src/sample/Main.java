@@ -1,7 +1,9 @@
 package sample;
 
+import CustomPages.ItemDescriptionPage;
 import CustomPages.ItemGridPage;
 import UtilityClasses.DatabaseConnection;
+import UtilityClasses.UserProfile;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -30,7 +32,7 @@ import java.sql.SQLException;
 public class Main extends Application {
 
     public static Stage stage = null;
-    BorderPane pane;
+    static BorderPane pane;
 
     @Override
     public void start(Stage stage) throws Exception{
@@ -42,11 +44,14 @@ public class Main extends Application {
 
     void generalStructure(Stage stage, Pane p)
     {
+        Main.pane = new BorderPane(null, getTop(), null, null, getLeft());
         //all these helper functions are just to make this function a lot less crowded
         if(p == null)
-            pane = new BorderPane(new ItemGridPage(null).pane, getTop(), null, null, getLeft());
+            setCenterPane(new ItemGridPage(null).pane);
         else
-            pane = new BorderPane(p, getTop(), null, null, getLeft());
+            setCenterPane(p);
+
+//        new ItemDescriptionPage("208299");
 
         Scene scene = new Scene(pane,
                 Toolkit.getDefaultToolkit().getScreenSize().width / 2.0,
@@ -55,6 +60,11 @@ public class Main extends Application {
         scene.setOnKeyPressed(event -> { if(event.getCode() == KeyCode.ESCAPE) stage.close(); });
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static void setCenterPane(Pane p)
+    {
+        Main.pane.setCenter(p);
     }
 
     private Node getCenter()
@@ -205,10 +215,21 @@ public class Main extends Application {
             ResultSet s = DatabaseConnection.RunSqlExecuteCommand("select * from user_information");
             while (s.next())
             {
-                System.out.println(s.getString("f_name") + " " + s.getString("l_name"));
+                System.out.println(s.getString("user_id"));
+
             }
         } catch (SQLException e)
         {
+            e.printStackTrace();
+        }
+        UserProfile test = new UserProfile();
+        String[][] test_return;
+        try {
+            test_return = test.getUserInfo("314");
+            for (String[] e : test_return) {
+                System.out.println(e[0] + " : " + e[1]);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
