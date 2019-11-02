@@ -4,10 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Random;
-
-//RemoveFromProduct
-//ReduceQuantity (pid (item), q)
 
 /**
  *
@@ -20,13 +16,23 @@ public class AddToProduct implements Instruction{
     private List<String> details;
     private PreparedStatement sqlCommand;
 
+    /**
+     * Constructor. Assumes that d is in the correct format of the schema, which is
+     * p_id, p_name, p_size, color, p_detail, price, admin_cost, stock, catalog_number, p_desc, p_imagePath
+     * @param d list of new product details
+     */
     public AddToProduct (List<String> d){
         this.details = d;
     }
 
-    private PreparedStatement createSqlCommand(){
+    /**
+     * Opens the database connection, runs the helper method to create the SQL command, closes the database connection
+     */
+    @Override
+    public void execute() {
         try {
-            sqlCommand = DatabaseConnection.getConnection().prepareStatement("INSERT INTO product_inventory VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            Connection conn = DatabaseConnection.getConnection();
+            sqlCommand = conn.prepareStatement("INSERT INTO product_inventory VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             sqlCommand.setInt (1, Integer.parseInt(details.get(0)));
             sqlCommand.setString (2, details.get(1));
             sqlCommand.setString (3, details.get(2));
@@ -38,18 +44,8 @@ public class AddToProduct implements Instruction{
             sqlCommand.setInt (9, Integer.parseInt(details.get(8)));
             sqlCommand.setString (10, details.get(9));
             sqlCommand.setString (11, details.get(10));
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
-        return sqlCommand;
-    }
-
-    @Override
-    public void execute() {
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            createSqlCommand().execute();
+            sqlCommand.execute();
+            sqlCommand.close();
             conn.close();
         }
         catch (SQLException e){
@@ -57,9 +53,14 @@ public class AddToProduct implements Instruction{
         }
     }
 
+    /**
+     * Uses the local "details" list in order to populate a string version of the SQL Command
+     * Assumes that all details are in correct order by column name
+     * @return returns String version of sql
+     */
     @Override
     public String getInstruction() {
-        String sqlCommandString = ("INSERT INTO product_inventory VALUES (" + details.get(0)
+        return "INSERT INTO product_inventory VALUES (" + details.get(0)
                 + ", " + details.get(1)
                 + ", " + details.get(2)
                 + ", " + details.get(3)
@@ -70,8 +71,6 @@ public class AddToProduct implements Instruction{
                 + ", " + details.get(8)
                 + ", " + details.get(9)
                 + ", " + details.get(10)
-                + ")"
-        );
-        return sqlCommandString;
+                + ")";
     }
 }
