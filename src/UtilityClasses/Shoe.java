@@ -11,7 +11,6 @@ public class Shoe extends Product
     String s1;
     double d1;
 
-    @Override
     public void UpdateProduct(ResultSet queryObject, Connection conn)
     { //this may be wrong at first, for now its just a general skeleton
         try

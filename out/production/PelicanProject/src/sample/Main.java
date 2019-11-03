@@ -1,6 +1,5 @@
 package sample;
 
-import CustomPages.ItemDescriptionPage;
 import CustomPages.ItemGridPage;
 import UtilityClasses.DatabaseConnection;
 import UtilityClasses.UserProfile;
@@ -210,18 +209,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        try
-        {
-            ResultSet s = DatabaseConnection.RunSqlExecuteCommand("select * from user_information");
-            while (s.next())
-            {
-                System.out.println(s.getString("user_id"));
 
-            }
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
         UserProfile test = new UserProfile();
         String[][] test_return;
         try {

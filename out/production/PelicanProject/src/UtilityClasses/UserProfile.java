@@ -92,7 +92,7 @@ public class UserProfile{
             ArrayList<String[]> user_information = new ArrayList<String[]>(); //This is the array that will end up being returned.
             sql_result.next(); //This gets the result set to the 1st row of the query. The result set starts before the 1st row of data.
 
-            //get all data for row (This looks horrible and needs to be cleaned up...)
+            //get all data for row (This looks horrible and needs to be clea    ned up...)
             user_information.add(new String[]{"user_id" , Integer.toString(sql_result.getInt("user_id"))});
             user_information.add(new String[]{"f_name" , sql_result.getString("f_name")});
             user_information.add(new String[]{"l_name" , sql_result.getString("l_name")});
