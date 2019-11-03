@@ -14,7 +14,7 @@ public class DatabaseConnection
     //sets up the connection to our private Oracle Autonomous Database. Will later need to be updated to handle user name + password entry
 
     //Must be run before each SQL command / start of instance
-    protected static Connection getConnection()
+    static Connection getConnection()
     {
         if(conn == null)
         {
@@ -59,7 +59,7 @@ public class DatabaseConnection
      * running a sql command to get something back, like select * from database,
      * is different than running something to create something, like create table ding,
      * so this will be used to allow for creation commands, and the above is to get something back
-     * @param sql
+     * @param sql sql command
      * @return whether it succeeded
      */
     public static boolean RunSqlCreateCommand(String sql)
@@ -82,14 +82,14 @@ public class DatabaseConnection
     }
 
     //Must be run after connection is done being used
-    public static void CloseConnection(){
+    static void closeConnection(Connection c){
         try {
-            conn.close();
+            c.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-
+        System.out.println ("Closed the connection");
     }
 
 }

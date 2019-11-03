@@ -1,0 +1,58 @@
+DELETE FROM product_inventory WHERE p_id = 80
+DELETE FROM product_inventory WHERE p_id = 937INSERT INTO product_inventory VALUES (937, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+DELETE FROM product_inventory WHERE p_id = 937
+INSERT INTO product_inventory VALUES (937, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+DELETE FROM product_inventory WHERE p_id = 937
+
+INSERT INTO product_inventory VALUES (937, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+DELETE FROM product_inventory WHERE p_id = 937
+INSERT INTO product_inventory VALUES (12, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (13, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (14, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+DELETE FROM product_inventory WHERE p_id = 12
+DELETE FROM product_inventory WHERE p_id = 13
+DELETE FROM product_inventory WHERE p_id = 14
+INSERT INTO product_inventory VALUES (12, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (13, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (14, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+DELETE FROM product_inventory WHERE p_id = 12
+DELETE FROM product_inventory WHERE p_id = 13
+DELETE FROM product_inventory WHERE p_id = 14
+INSERT INTO product_inventory VALUES (39, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (40, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (41, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+DELETE FROM product_inventory WHERE p_id = 12
+INSERT INTO product_inventory VALUES (67, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (768, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (345, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+DELETE FROM product_inventory WHERE p_id = 12
+INSERT INTO product_inventory VALUES (676, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (768, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (345, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+DELETE FROM product_inventory WHERE p_id = 12
+INSERT INTO product_inventory VALUES (222, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (333, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (444, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+DELETE FROM product_inventory WHERE p_id = 222
+INSERT INTO product_inventory VALUES (222, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (333, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (444, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+DELETE FROM product_inventory WHERE p_id = 222
+INSERT INTO product_inventory VALUES (999, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (777, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (666, test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+DELETE FROM product_inventory WHERE p_id = 999
+INSERT INTO product_inventory VALUES (test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (test1, Medium, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (test2, Large, Black, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (test3, Medium, White, Definatly Exists, 10, 20, 15, 0, This worked, images/allBirdsShow.png)
+null
+null
+com.mysql.cj.jdbc.ClientPreparedStatement: UPDATE product_inventory SET p_name = 'sadness' WHERE p_id = 444
+null
+UPDATE product_inventory SET + p_name = number of the beast WHERE p_id = 666

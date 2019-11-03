@@ -8,20 +8,22 @@ public class UpdateProduct implements Instruction {
     private int p_id;
     private String column;
     private String change;
+    private Connection conn;
 
-    UpdateProduct (int p_id, String column, String change){
+    UpdateProduct (int p_id, String column, String change, Connection conn){
         this.p_id = p_id;
         this.column = column;
         this.change = change;
+        this.conn = conn;
     }
 
     @Override
     public void execute() {
         try {
                 Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement p = conn.prepareStatement("UPDATE product_inventory SET ? = ? WHERE p_id = ?");
-                p.setString (1, column);
-                p.setInt(3, p_id);
+                PreparedStatement p = conn.prepareStatement("UPDATE product_inventory SET " + column + " = ? WHERE p_id = ?");
+                //p.setString (1, column);
+                p.setInt(2, p_id);
 
                 if (column.equals("admin_cost") || column.equals("price")) {
                     double dUp = Double.parseDouble(change);
@@ -31,12 +33,10 @@ public class UpdateProduct implements Instruction {
                     p.setInt(2, iUp);
                 } else {
                     String sUp = change;
-                    p.setString(2, sUp);
+                    p.setString(1, sUp);
                 }
 
                 p.execute();
-                ModifyDatabase.writeToProductLog(p.toString());
-                conn.close();
                 p.close();
         }
         catch (SQLException e) {
@@ -46,6 +46,6 @@ public class UpdateProduct implements Instruction {
 
     @Override
     public String getInstruction() {
-        return null;
+        return "UPDATE product_inventory SET + " + column + " = " + change + " WHERE p_id = " + p_id;
     }
 }

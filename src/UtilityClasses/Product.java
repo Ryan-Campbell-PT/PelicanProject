@@ -1,11 +1,12 @@
 package UtilityClasses;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * created as abstract because it allows us to do basic things like shared methods that
- * an interface doesnt allow
+ * Class stores all of the information that a product can hold.
+ * Database has its own constraints on
  */
 public class Product
 {
@@ -13,11 +14,10 @@ public class Product
     //p_id (int), p_name (String), p_size (String), color (String), p_detail (String),
     //price (double), admin_cost (double), stock (int), catalog_number (int), p_desc (String), p_imagePath (String)
 
-    private List <String> productDetails;
+    private List <String> productDetails = new ArrayList<>();
 
     private int p_id;
     public int getId() { return p_id; }
-    public void setId (int id) {this.p_id = id;}
 
     private Image image;
     protected void setImage(Image i) { this.image = i; }

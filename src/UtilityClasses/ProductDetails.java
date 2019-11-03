@@ -2,6 +2,7 @@ package UtilityClasses;
 
 import com.sun.org.apache.xpath.internal.operations.Mod;
 
+import javax.xml.crypto.Data;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -26,30 +27,51 @@ public class ProductDetails
     /**
      * this is the connection to the database that will be used throughout the class
      */
-    private Connection connection = null;
-    private static List<String> prodDetails;
+    private static Connection connection = null;
+    private static List<String> prodDetails = new ArrayList<>();
+
+    public static void startProductUpdates(){
+        System.out.println ("Starting the connection");
+        connection = DatabaseConnection.getConnection();
+    }
+
+    public static void endProductUpdates(){
+        System.out.println ("Closing the connection");
+        DatabaseConnection.closeConnection(connection);
+    }
 
     /**
-     * with the creation of an object, this function will be called to add it to the database
-     * Uses the existing Instruction interface, and the static methods in the modifyDatabase class to handle the connections / execution
+     *Uses the existing Instruction interface, and the static methods in the modifyDatabase class to handle the connections / execution
+     * @param n Name
+     * @param s Size
+     * @param c Color
+     * @param d Description
+     * @param p Price
+     * @param cost Cost
+     * @param st Stock
+     * @param cat Catalog
+     * @param desc Description
      */
-    static void AddProductToDatabase(String n, String s, String c, String d, String p, String cost, String st, String cat, String desc)
+    public static void AddProductToDatabase(String n, String s, String c, String d, String p, String cost, String st, String cat, String desc)
     {
-        prodDetails.add(0, ModifyDatabase.newProductKey());
-        prodDetails.add(1, n);
-        prodDetails.add(2, s);
-        prodDetails.add(3, c);
-        prodDetails.add(4, d);
-        prodDetails.add(5, p);
-        prodDetails.add(6, cost);
-        prodDetails.add(7, st);
-        prodDetails.add(8, cat);
-        prodDetails.add(9, desc);
+        System.out.println ("Adding product details.");
+        prodDetails.add(0, n);
+        prodDetails.add(1, s);
+        prodDetails.add(2, c);
+        prodDetails.add(3, d);
+        prodDetails.add(4, p);
+        prodDetails.add(5, cost);
+        prodDetails.add(6, st);
+        prodDetails.add(7, cat);
+        prodDetails.add(8, desc);
         //set image path: will use a default for now.
         String defImagePath = "images/allBirdsShow.png";
-        prodDetails.add(10, defImagePath);
+        prodDetails.add(9, defImagePath);
 
-        AddToProduct i = new AddToProduct(prodDetails);
+        System.out.println("Creating new instruction.");
+        AddToProduct i = new AddToProduct(prodDetails, connection);
+
+        System.out.println ("Updating the database.");
         ModifyDatabase.updateDatabase(i);
     }
 
@@ -62,8 +84,13 @@ public class ProductDetails
      * @param col existing column name in
      * @param up value that the column is being updated to
      */
-    static void updateProduct (int pid, String col, String up){
-        UpdateProduct i = new UpdateProduct(pid, col, up);
+    public static void updateProduct (int pid, String col, String up){
+        UpdateProduct i = new UpdateProduct(pid, col, up, connection);
+        ModifyDatabase.updateDatabase(i);
+    }
+
+    public static void removeProduct (int pid){
+        RemoveProduct i = new RemoveProduct(pid, connection);
         ModifyDatabase.updateDatabase(i);
     }
 
