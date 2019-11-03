@@ -1,5 +1,7 @@
 package UtilityClasses;
 
+import sun.util.resources.cldr.ml.CalendarData_ml_IN;
+
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,39 +11,58 @@ import java.util.Random;
  * created as abstract because it allows us to do basic things like shared methods that
  * an interface doesnt allow
  */
-public abstract class Product
+public class Product
 {
-    private static int idCounter = 0;
+    //Product_inventory schema
+    //p_id (int), p_name (String), p_size (String), color (String), p_detail (String),
+    //price (double), admin_cost (double), stock (int), catalog_number (int), p_desc (String), p_imagePath (String)
 
     private int Id;
     public int getId() { return Id; }
+    public void setId (int id) {this.Id = id;}
 
     private Image image;
     protected void setImage(Image i) { this.image = i; }
 
-    public String name;
+    private String imagePath;
+    public String getImagePath(){return imagePath;}
+    public void setImagePath(String s){this.imagePath = s;}
 
-    protected Product()
-    {
-        Id = idCounter++;
-    }
+    private String name;
+    public String getName() {return name;}
+    public void setName(String n) {this.name = n;}
 
-    /**
-     * my thought for this function is that it will take all the information local to the object
-     * and declare it on the database; will likely be called at the end of the constructor of the product
-     * MAY NOT ACTUALLY BE NEEDED???
-     */
-    protected void Submit()
-    {
-        String sqlQuery = "INSERT INTO [table](id, image, name, ...) VALUES (id, image, name, ...)";
-//        UtilityClasses.ProductDetails
-    }
+    private String size;
+    public String getSize() {return size;}
+    public void setSize(String size) {this.size = size;}
 
-    /**
-     * since every object is different and dynamic, this will be used when the object needs to be updated to the database
-     * @param queryObject the object returned by the sql query that contains all information currently stored
-     *                    in the database for that object
-     * @param conn the connection needed to update the information for this object
-     */
-    public abstract void UpdateProduct(ResultSet queryObject, Connection conn);
+    private String color;
+    public String getColor() {return color;}
+    public void setColor(String color) {this.color = color;}
+
+    private String detail;
+    public String getDetail () {return detail;}
+    public void setDetail (String detail) {this.detail = detail;}
+
+    private Double price;
+    public Double getPrice () {return price;}
+    public void setPrice (Double price) {this.price = price;}
+
+    private Double cost;
+    public Double getCost() { return cost;}
+    public void setCost(Double cost){this.cost = cost;}
+
+    private int stock;
+    public int getStock() {return stock;}
+    public void setStock (int stock) {this.stock = stock;}
+
+    private int catalog;
+    public int getCatalog() {return catalog;}
+    public void setCatalog(int catalog) {this.catalog = catalog;}
+
+    private String desc;
+    public String getDesc () {return desc;}
+    public void setDesc (String desc) {this.desc = desc;}
+
+    public updateProduct();
 }

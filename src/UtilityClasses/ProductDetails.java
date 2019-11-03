@@ -1,9 +1,12 @@
 package UtilityClasses;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
+
 import java.sql.*;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * I (Ryan) assume that UtilityClasses.ProductDetails will be used as a middle man between the user and the database, where you pass
@@ -16,27 +19,30 @@ public class ProductDetails
      * this is the connection to the database that will be used throughout the class
      */
     private Connection connection = null;
-
-    private ProductDetails()
-    {
-        // https://docs.oracle.com/javase/tutorial/jdbc/basics/
-        // sql database stuff
-        try
-        {
-            connection = DatabaseConnection.getConnection();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-    }
+    private static List<String> prodDetails;
 
     /**
      * with the creation of an object, this function will be called to add it to the database,
      */
-    static void AddProductToDatabase(Product p)
+    static void AddProductToDatabase(String n, String s, String c, String d, String p, String cost, String st, String cat, String desc)
     {
-        String sqlQuery = "INSERT INTO [table]";
+        prodDetails.add(0, ModifyDatabase.newProductKey());
+        prodDetails.add(1, n);
+        prodDetails.add(2, s);
+        prodDetails.add(3, c);
+        prodDetails.add(4, d);
+        prodDetails.add(5, p);
+        prodDetails.add(6, cost);
+        prodDetails.add(7, st);
+        prodDetails.add(8, cat);
+        prodDetails.add(9, desc);
+        //set image path: will use a default for now.
+        String defImagePath = "images/allBirdsShow.png";
+        prodDetails.add(10, defImagePath);
+
+        Instruction i = new AddToProduct(prodDetails);
+        ModifyDatabase.updateDatabase(i);
+
     }
 
     /**
@@ -71,7 +77,6 @@ public class ProductDetails
 
 //                itemReceivedFromSQL = result.getString(1);
 
-                i.UpdateProduct(result, connection); //let the object handle the updating
             }
 
         } catch (SQLException e)
@@ -96,4 +101,6 @@ public class ProductDetails
 
         return new ArrayList<>(Arrays.asList(tagsFromSQL.split("whatever the split would be")));
     }
+
+    public Product getProductDetails()
 }

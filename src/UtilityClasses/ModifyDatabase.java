@@ -12,18 +12,23 @@ public class ModifyDatabase{
      * Then executes that SQL
      * @param ls list of type instructions to be completed
      */
-    public ModifyDatabase(List<Instruction> ls){
+    public static void updateDatabase(List<Instruction> ls){
         for (Instruction i : ls){
             writeToProductLog(i.getInstruction());
             i.execute();
         }
     }
 
+    public static void updateDatabase(Instruction i){
+        writeToProductLog(i.getInstruction());
+        i.execute();
+    }
+
     /**
      * Helper function that takes in a single string and writes it to the product_log
      * @param i String version of SQL
      */
-    private void writeToProductLog (String i){
+    private static void writeToProductLog (String i){
         try {
             FileWriter fw = new FileWriter("logs/product_log");
             fw.write(i + "/n");
@@ -40,7 +45,7 @@ public class ModifyDatabase{
      * if it doesn't exist, then it catches the error and breaks out of the loop, and then returns that key
      * @return new product key (p_id)
      */
-    private int newProductKey() {
+     static String newProductKey() {
         int key;
         Random ran = new Random();
         while (true) {
@@ -53,6 +58,7 @@ public class ModifyDatabase{
                 break;
             }
         }
-        return key;
+        return Integer.toString(key);
     }
+
 }
