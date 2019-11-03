@@ -2,16 +2,24 @@ package UtilityClasses;
 
 import com.sun.org.apache.xpath.internal.operations.Mod;
 
+import java.io.InputStream;
+import java.io.Reader;
+import java.math.BigDecimal;
+import java.net.URL;
 import java.sql.*;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
  * I (Ryan) assume that UtilityClasses.ProductDetails will be used as a middle man between the user and the database, where you pass
  * in the item you want to update, and UtilityClasses.ProductDetails will change the information necessary.
  * I viewed this as a singleton/static class that would be accessed anywhere in the project to update the item anywhere necessary
+ *
+ * I (Quin) upon revision have been changed this class so that it will act as the creator of a bunch of different instructions
+ * ModifyDatabase class acts as a helper to do the actual execution.
  */
 public class ProductDetails
 {
@@ -22,7 +30,8 @@ public class ProductDetails
     private static List<String> prodDetails;
 
     /**
-     * with the creation of an object, this function will be called to add it to the database,
+     * with the creation of an object, this function will be called to add it to the database
+     * Uses the existing Instruction interface, and the static methods in the modifyDatabase class to handle the connections / execution
      */
     static void AddProductToDatabase(String n, String s, String c, String d, String p, String cost, String st, String cat, String desc)
     {
@@ -40,49 +49,22 @@ public class ProductDetails
         String defImagePath = "images/allBirdsShow.png";
         prodDetails.add(10, defImagePath);
 
-        Instruction i = new AddToProduct(prodDetails);
+        AddToProduct i = new AddToProduct(prodDetails);
         ModifyDatabase.updateDatabase(i);
-
     }
 
     /**
-     * this function will be used to add values to the database, for an object that is using
-     * parameters/information that isnt generic to UtilityClasses.Product (id, name, image)
-     * @param productId the productId that will be used to update the information
-     * @param parameterName what the name of the value will be in the database
-     * @param parameterValue the actual information for that value
+     * UpdateProduct takes in an existing productId, existing columnName, and a new value for that column
+     * Creates a new updateProduct instruction and executes it
+     * Doesn't care about the removed or replaced value
+     * TODO: CHECK CONDITIONS ON PARAMETERS
+     * @param pid existing product id
+     * @param col existing column name in
+     * @param up value that the column is being updated to
      */
-    static void AddParameter(int productId, String parameterName, Object parameterValue)
-    {
-
-    }
-
-    /**
-     * checks the database for this item, and changes any parameters that have changed on it
-     * @param i the object that has all the information, that now wants to be synced with the database
-     */
-    void UpdateItem(Product i)
-    {
-        try
-        {
-            String getObjectSQL = "SELECT * WHERE id EQUALS " + i.getId();
-            PreparedStatement p = connection.prepareStatement(getObjectSQL);
-            ResultSet result = p.executeQuery();
-
-            String itemReceivedFromSQL;
-            while (result.next())
-            {
-                //if done correctly, this loop should only go through once,
-                // and s should contain the info recived from the query
-
-//                itemReceivedFromSQL = result.getString(1);
-
-            }
-
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+    static void updateProduct (int pid, String col, String up){
+        UpdateProduct i = new UpdateProduct(pid, col, up);
+        ModifyDatabase.updateDatabase(i);
     }
 
     /**
@@ -101,6 +83,4 @@ public class ProductDetails
 
         return new ArrayList<>(Arrays.asList(tagsFromSQL.split("whatever the split would be")));
     }
-
-    public Product getProductDetails()
 }
