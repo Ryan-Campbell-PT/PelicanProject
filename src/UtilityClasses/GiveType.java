@@ -28,6 +28,12 @@ public class GiveType implements Instruction {
     public boolean execute() {
         System.out.println ("Inserting new values into Product_Categories");
         try {
+            // Perform Verification
+            if(!verifyDBInstruction()){
+                System.out.println("Invalid Command.");
+                throw new SQLException("Invalid command given to SQL Database.");
+            }
+
             sql = conn.prepareStatement("INSERT INTO product_category VALUES (?, ?)");
             //Name exists in inventory?
             sql.setString(1, name);
@@ -47,5 +53,17 @@ public class GiveType implements Instruction {
     @Override
     public String getInstruction() {
         return "INSERT INTO product_category VALUES (" + name + ", " + type + ")";
+    }
+
+    @Override
+    public boolean getValidation() {
+        return true;
+    }
+
+    @Override
+    public boolean verifyDBInstruction() {
+
+        // No current tests
+        return true;
     }
 }

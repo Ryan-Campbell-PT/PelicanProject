@@ -31,6 +31,12 @@ public class RemoveProduct implements Instruction {
     public boolean execute() {
         System.out.println ("Removing product with p_id = " + p_id);
         try {
+            // Perform Verification
+            if(!verifyDBInstruction()){
+                System.out.println("Invalid Command.");
+                throw new SQLException("Invalid command given to SQL Database.");
+            }
+
             sql = conn.prepareStatement("DELETE FROM product_inventory WHERE p_id = ?");
             sql.setInt(1, p_id);
             sql.execute();
@@ -54,5 +60,25 @@ public class RemoveProduct implements Instruction {
     @Override
     public String getInstruction() {
         return "DELETE FROM product_inventory WHERE p_id = " + p_id;
+    }
+
+    @Override
+    public boolean getValidation() {
+        return true;
+    }
+
+    @Override
+    public boolean verifyDBInstruction() {
+
+        //----------------------------------------
+        // Verify non negative p_id
+        //----------------------------------------
+        if(p_id < 0) return false;
+
+
+        //----------------------------------------
+        // If reached, we have passed verification
+        //----------------------------------------
+        return true;
     }
 }

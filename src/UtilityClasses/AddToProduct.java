@@ -2,6 +2,7 @@ package UtilityClasses;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,8 @@ public class AddToProduct implements Instruction{
     private List<String> details;
     private PreparedStatement sqlCommand;
     private Connection conn;
-
+    private int productSchemaLength = 11;       // Number of columns for a product
+    private boolean validInstruction;
 
 
     /**
@@ -29,7 +31,86 @@ public class AddToProduct implements Instruction{
     AddToProduct(List<String> d, Connection conn){
         this.details = d;
         this.conn = conn;
+
     }
+
+
+    /**
+     * getValidation - used to retrieve private variable validInstruction
+     *  so we don't have to cast instruction each time to get a variable
+     */
+    @Override
+    public boolean getValidation() {
+        return validInstruction;
+    }
+
+
+    /**
+     * verifyListDetails
+     *  - Type and Parameter Checks for each element within the given list
+     *  - Schema for Product is (contains 11 items):
+     * //p_id (int), p_name (String), p_size (String), color (String), p_detail (String),
+     * //price (double), admin_cost (double), stock (int), catalog_number (int), p_desc (String), p_imagePath (String)
+     */
+    @Override
+    public boolean verifyDBInstruction() {
+        try {
+
+            // Setup
+            Double tmpDouble;
+            Integer tmpInteger;
+
+            //----------------------------------------
+            // Verify details length against known columns
+            //----------------------------------------
+            ResultSet rs = DatabaseConnection.RunSqlExecuteCommand(
+                    "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'product_inventory'");
+            int len;
+            if (rs == null) throw new SQLException();
+            rs.last();    // moves cursor to the last row
+            len = rs.getRow(); // get row id
+            if (len != details.size()) return false;
+
+            if(details.size() != productSchemaLength) return false;
+
+            //----------------------------------------
+            // Verify each element of details against expected order
+            //----------------------------------------
+            // p_id (int)               - 0
+            tmpInteger = Integer.parseInt(details.get(0));     // If fails, throws exception which is caught below
+
+            // p_name (String)          - 1
+            // p_size (String)          - 2
+            // color (String)           - 3
+            // p_detail (String)        - 4
+
+            // price (double)           - 5
+            tmpDouble = Double.parseDouble(details.get(5));
+
+            // admin_cost (double)      - 6
+            tmpDouble = Double.parseDouble(details.get(6));
+
+            // stock (int)              - 7
+            tmpInteger = Integer.parseInt(details.get(7));
+
+            // catalog_number (int)     - 8
+            tmpInteger = Integer.parseInt(details.get(8));
+
+            // p_desc (String)
+            // p_imagePath (String)
+
+        } catch (Exception e) {
+            // Converting one of our Strings to an int or double has failed, thus it was improperly entered
+            // and we know that this instruction if invalid
+            return false;
+        }
+
+        //----------------------------------------
+        // If reached, we have successfully passed verification
+        //----------------------------------------
+        return true;
+    }
+
 
     /**
      * Opens the database connection, runs the helper method to create the SQL command, closes the database connection
@@ -43,6 +124,13 @@ public class AddToProduct implements Instruction{
                 System.out.print (s + " ");
             }
             System.out.println ();
+
+            // Perform Verification
+            if(!verifyDBInstruction()){
+                System.out.println("Invalid Command.");
+                throw new SQLException("Invalid command given to SQL Database.");
+            }
+
 
             sqlCommand = conn.prepareStatement("INSERT INTO product_inventory" +
                     " (p_name, p_size, color, p_detail, price, admin_cost, stock, catalog_number, p_desc, image_path)" +
@@ -99,4 +187,9 @@ public class AddToProduct implements Instruction{
                 + ", " + details.get(9)
                 + ")";
     }
+
+
+
+
+
 }

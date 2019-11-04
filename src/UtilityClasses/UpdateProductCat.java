@@ -26,6 +26,12 @@ public class UpdateProductCat implements Instruction{
     @Override
     public boolean execute() {
         try {
+            // Perform Verification
+            if(!verifyDBInstruction()){
+                System.out.println("Invalid Command.");
+                throw new SQLException("Invalid command given to SQL Database.");
+            }
+
             Connection conn = DatabaseConnection.getConnection();
             PreparedStatement p = conn.prepareStatement("UPDATE product_category SET product_type = ? WHERE product_name = ?");
             //string make sense
@@ -46,5 +52,17 @@ public class UpdateProductCat implements Instruction{
     @Override
     public String getInstruction() {
         return "UPDATE product_inventory SET product_type = " + change + " WHERE product_name = " + name;
+    }
+
+    @Override
+    public boolean getValidation() {
+        return true;
+    }
+
+    @Override
+    public boolean verifyDBInstruction() {
+
+        // No current tests, may add "check if product_name already exists" later
+        return true;
     }
 }
