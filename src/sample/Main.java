@@ -26,11 +26,13 @@ import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.ResultSet;
+import java.util.Stack;
 
 public class Main extends Application {
 
     public static Stage stage = null;
     static BorderPane pane;
+    private static Stack<Pane> centerPaneStack = new Stack<>();
 
     @Override
     public void start(Stage stage) throws Exception{
@@ -60,8 +62,18 @@ public class Main extends Application {
         stage.show();
     }
 
+    /**
+     * this function will be used by anywhere in the project, which allows for the back button functionality
+     */
     public static void setCenterPane(Pane p)
     {
+        setCenterPaneLocal(p, true);
+    }
+
+    private static void setCenterPaneLocal(Pane p, boolean addToBackButton)
+    {
+        if(addToBackButton)
+            centerPaneStack.push(p);
         Main.pane.setCenter(p);
     }
 
@@ -116,11 +128,29 @@ public class Main extends Application {
         return categories;
     }
 
+    private boolean goBack()
+    {
+        if(centerPaneStack.size() == 1)
+        {
+            return false;
+        }
+        else
+        {
+            centerPaneStack.pop(); //take the current pane off
+            Pane prevPane = centerPaneStack.peek(); //check out the one before it
+            setCenterPaneLocal(prevPane, false);
+            return true;
+        }
+    }
+
     private Node getTop()
     {
         HBox topPanel = null;
         try
         {
+            Button backButton = new Button("<-");
+            backButton.setOnMouseClicked(event -> goBack());
+
             TextField searchBar = new TextField();
             searchBar.setOnAction(new EventHandler<ActionEvent>()
             {
@@ -138,7 +168,7 @@ public class Main extends Application {
             Button userProfileButton = new Button("this button could be used as their avatar image", userProfilePic);
             userProfileButton.setAlignment(Pos.TOP_RIGHT);
 
-            topPanel = new HBox(10, searchBar, searchButton, userProfileButton);
+            topPanel = new HBox(10, backButton, searchBar, searchButton, userProfileButton);
             topPanel.setPadding(new Insets(0, 0, 40, 0));
 
         } catch(Exception e) { e.printStackTrace(); }
