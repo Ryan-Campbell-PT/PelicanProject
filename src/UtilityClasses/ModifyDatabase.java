@@ -13,19 +13,23 @@ class ModifyDatabase{
      * Then executes that SQL
      * @param ls list of type instructions to be completed
      */
-
      static void updateDatabase(ArrayList<Instruction> ls){
         for (Instruction i : ls){
-            writeToProductLog(i.getInstruction());
-            i.execute();
+            if (i.execute()){
+                writeToProductLog(i.getInstruction());
+            }
         }
     }
 
-
+    /**
+     * Updates the database based on a single instruction
+     * @param i instruction
+     */
     static void updateDatabase(Instruction i){
          System.out.println("Received new instruction. Executing now.");
-         i.execute();
-         writeToProductLog(i.getInstruction());
+         if(i.execute()){
+            writeToProductLog(i.getInstruction());
+         }
     }
 
     /**

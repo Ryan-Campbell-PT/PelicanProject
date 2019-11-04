@@ -24,6 +24,7 @@ public class AddToProduct implements Instruction{
      * Constructor. Assumes that d is in the correct format of the schema, which is
      * p_id, p_name, p_size, color, p_detail, price, admin_cost, stock, catalog_number, p_desc, p_imagePath
      * @param d list of new product details
+     * @param conn the connection
      */
     AddToProduct(List<String> d, Connection conn){
         this.details = d;
@@ -34,7 +35,7 @@ public class AddToProduct implements Instruction{
      * Opens the database connection, runs the helper method to create the SQL command, closes the database connection
      */
     @Override
-    public void execute() {
+    public boolean execute() {
         System.out.println ("Executing AddToProduct");
         try {
             System.out.println ("Adding: ");
@@ -46,15 +47,26 @@ public class AddToProduct implements Instruction{
             sqlCommand = conn.prepareStatement("INSERT INTO product_inventory" +
                     " (p_name, p_size, color, p_detail, price, admin_cost, stock, catalog_number, p_desc, image_path)" +
                     "  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            //Is it a valid string?
             sqlCommand.setString (1, details.get(0));
+            //Actually a string?
             sqlCommand.setString (2, details.get(1));
+            //Actually a string?
             sqlCommand.setString (3, details.get(2));
+            //Actually a string?
             sqlCommand.setString (4, details.get(3));
+            //Positive number?
             sqlCommand.setDouble (5, Double.parseDouble(details.get(4)));
+            //Positive number?
             sqlCommand.setDouble (6, Double.parseDouble(details.get(5)));
+            //Positive number?
             sqlCommand.setInt (7, Integer.parseInt(details.get(6)));
+            //Optional
             sqlCommand.setInt (8, Integer.parseInt(details.get(7)));
+            //Optional
             sqlCommand.setString (9, details.get(8));
+            //Image exist?
             sqlCommand.setString (10, details.get(9));
             sqlCommand.execute();
             sqlCommand.close();
@@ -63,7 +75,9 @@ public class AddToProduct implements Instruction{
         }
         catch (SQLException e){
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**

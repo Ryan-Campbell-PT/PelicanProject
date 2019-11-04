@@ -30,11 +30,17 @@ public class ProductDetails
     private static Connection connection = null;
     private static List<String> prodDetails = new ArrayList<>();
 
+    /**
+     * Opens the connection to the MYSQL connection
+     */
     public static void startProductUpdates(){
         System.out.println ("Starting the connection");
         connection = DatabaseConnection.getConnection();
     }
 
+    /**
+     * Closes the connection to the MYSQL connection
+     */
     public static void endProductUpdates(){
         System.out.println ("Closing the connection");
         DatabaseConnection.closeConnection(connection);
@@ -89,10 +95,35 @@ public class ProductDetails
         ModifyDatabase.updateDatabase(i);
     }
 
+    /**
+     * Creates an instruction to remove a product from the Product_inventory table based on a single p_id
+     * @param pid product_id
+     */
     public static void removeProduct (int pid){
         RemoveProduct i = new RemoveProduct(pid, connection);
         ModifyDatabase.updateDatabase(i);
     }
+
+    /**
+     * Creates instruction to give product_name a product_type in product_category
+     * @param name product_name
+     * @param type product_type
+     */
+    public static void giveProductType (String name, String type){
+        GiveType i = new GiveType (name, type, connection);
+        ModifyDatabase.updateDatabase(i);
+    }
+
+    /**
+     * Updates product_type in product_category based on a product_name
+     * @param name product_name
+     * @param type product_type
+     */
+    public static void updateProductType (String name, String type){
+        UpdateProductCat i = new UpdateProductCat(name, type, connection);
+        ModifyDatabase.updateDatabase(i);
+    }
+
 
     /**
      * assuming every UtilityClasses.DisplayItem has their own tag list, this will return it, in uses like tag searching

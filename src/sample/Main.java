@@ -208,7 +208,8 @@ public class Main extends Application {
         try{
             ProductDetails.startProductUpdates();
 
-            ProductDetails.updateProduct(666, "p_name", "number of the beast");
+            ProductDetails.giveProductType("number of the beast", "Accessory");
+            ProductDetails.giveProductType("sadness", "Mask");
 
             ProductDetails.endProductUpdates();
         }
