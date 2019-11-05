@@ -27,6 +27,7 @@ public class ManageStore extends Application {
  * Needs 3 buttons: update item, remove item, add item
  * Will eventually be expanded to contain all the necessary store management stuff
  * Needs text fields for each field in product_inventory
+ * just making extra sure about a git issue
  */
     private TextField name;
     private TextField size;
