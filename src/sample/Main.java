@@ -2,7 +2,6 @@ package sample;
 
 import CustomPages.ItemGridPage;
 import UtilityClasses.DatabaseConnection;
-import UtilityClasses.UserProfile;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,7 +25,6 @@ import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Main extends Application {
 
@@ -209,16 +207,5 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-
-        UserProfile test = new UserProfile();
-        String[][] test_return;
-        try {
-            test_return = test.getUserInfo("314");
-            for (String[] e : test_return) {
-                System.out.println(e[0] + " : " + e[1]);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

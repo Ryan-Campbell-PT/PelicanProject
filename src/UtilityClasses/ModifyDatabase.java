@@ -30,7 +30,7 @@ class ModifyDatabase{
      */
     static void writeToProductLog (String i){
         try {
-            FileWriter fw = new FileWriter("logs/product_log");
+            FileWriter fw = new FileWriter("logs/product_log" , true);
             fw.write(i + "/n");
             fw.close();
         }

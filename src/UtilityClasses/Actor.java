@@ -16,7 +16,7 @@ public interface Actor
      * @return whether the signup was succesful. Can be stored in the database, or used to send a confirmation email
      * (something that would likely not be done in this project, but just an idea)
      */
-    boolean Signup(String username, String password);
+//    static boolean Signup(String username, String password);
 
     /**
      * all users should have the option to view their account, what shows in that account depends on the actor itself
@@ -27,7 +27,7 @@ public interface Actor
      * (Ryan) have no idea how this would be implemented, as every actor will have a different subset of things to update
      * and you cant have an X amount of function parameters in java
      */
-    void UpdateInfo();
+    void UpdateInfo(String[] args);
 
     /**
      * Searching should be a basic function, so the search should simply take in a string that will check the
