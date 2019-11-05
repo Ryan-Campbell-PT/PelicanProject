@@ -140,4 +140,16 @@ public class UserProfile{
         }
         return icon;
     }
+    public void deleteAccount(int u_id){
+        boolean result;
+        String sql;
+        sql = String.format("DELETE FROM user_information WHERE user_id=%d;" , u_id);
+        result = DatabaseConnection.RunSqlCreateCommand(sql);
+        if(result){
+            System.out.println(String.format("Deleted user with 'user_id' of %d" , u_id));
+        }
+        else{
+            System.out.println(String.format("Unable to delete user with 'user_id' of %d" , u_id));
+        }
+    }
 }

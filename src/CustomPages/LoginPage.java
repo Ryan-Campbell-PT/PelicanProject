@@ -14,6 +14,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import sample.entry_point;
 
+import static java.lang.Thread.sleep;
+
 public class LoginPage {
     public TilePane pane = new TilePane(Orientation.VERTICAL);
     private String username = null;
@@ -45,12 +47,20 @@ public class LoginPage {
                 login_status.setText("Username password combination were not found.");
             }else{
                 if(customer_tmp.Login()){
-                    /*Goto gridstore with Customer object passed on */
+                    /*Goto gridstore with Customer object passed on
+                    * for now goto user profile*/
                     login_status.setText("Login Successful");
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    UserProfilePage userProfilePage = new UserProfilePage();
+                    userProfilePage.setupPage(customer_tmp);
                 }
                 else{
                     password.clear();
-                    login_status.setText("Username password combination were not found.");
+                    login_status.setText("We were unable to log you in.");
                 }
             }
         };
@@ -85,7 +95,7 @@ public class LoginPage {
         pane.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(pane , 400 , 300);
-        entry_point.stage.setTitle("Pelican Shop");
+        entry_point.stage.setTitle("Pelican Shop: Login");
         entry_point.stage.setScene(scene);
         entry_point.stage.show();
     }
