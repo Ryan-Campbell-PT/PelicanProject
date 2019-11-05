@@ -1,47 +1,92 @@
 package UtilityClasses;
 
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * created as abstract because it allows us to do basic things like shared methods that
- * an interface doesnt allow
+ * Class stores all of the information that a product can hold.
+ * Will be used as more of a big storage
  */
-public abstract class Product
+public class Product
 {
-    private static int idCounter = 0;
+    /**Product_inventory schema
+     *p_id (int), p_name (String), p_size (String), color (String), p_detail (String),
+     *price (double), admin_cost (double), stock (int), catalog_number (int), p_desc (String), p_imagePath (String)
+     */
 
-    private int Id;
-    public int getId() { return Id; }
+    private List <String> productDetails = new ArrayList<>();
+
+    private int p_id;
+    public int getId() { return p_id; }
 
     private Image image;
     protected void setImage(Image i) { this.image = i; }
 
-    public String name;
+    private String image_path;
+    public String getImagePath(){return image_path;}
+    public void setImagePath(String s){this.image_path = s;}
 
-    protected Product()
-    {
-        Id = idCounter++;
+    private String p_name;
+    public String getName() {return p_name;}
+    public void setName(String n) {this.p_name = n;}
+
+    private String p_size;
+    public String getSize() {return p_size;}
+    public void setSize(String size) {this.p_size = size;}
+
+    private String color;
+    public String getColor() {return color;}
+    public void setColor(String color) {this.color = color;}
+
+    private String p_detail;
+    public String getDetail () {return p_detail;}
+    public void setDetail (String detail) {this.p_detail = detail;}
+
+    private Double price;
+    public Double getPrice () {return price;}
+    public void setPrice (Double price) {this.price = price;}
+
+    private Double admin_cost;
+    public Double getCost() { return admin_cost;}
+    public void setCost(Double cost){this.admin_cost = cost;}
+
+    private int stock;
+    public int getStock() {return stock;}
+    public void setStock (int stock) {this.stock = stock;}
+
+    private int catalog_number;
+    public int getCatalog() {return catalog_number;}
+    public void setCatalog(int catalog) {this.catalog_number = catalog;}
+
+    private String desc;
+    public String getDesc () {return desc;}
+    public void setDesc (String desc) {this.desc = desc;}
+
+    /**
+     * For whatever reason, in case it needs to pass itself around
+     * @return product
+     */
+    public Product getProduct(){
+        return this;
     }
 
     /**
-     * my thought for this function is that it will take all the information local to the object
-     * and declare it on the database; will likely be called at the end of the constructor of the product
-     * MAY NOT ACTUALLY BE NEEDED???
+     * In case the product needs to recreate itself / needs all the details on the fly
+     * @return List of all product_details
      */
-    protected void Submit()
-    {
-        String sqlQuery = "INSERT INTO [table](id, image, name, ...) VALUES (id, image, name, ...)";
-//        UtilityClasses.ProductDetails
+    public List<String> getProductDetails(){
+        productDetails.add (0, Integer.toString(p_id));
+        productDetails.add(1, p_name);
+        productDetails.add(2, p_size);
+        productDetails.add(3, color);
+        productDetails.add(4, p_detail);
+        productDetails.add(5, Double.toString(price));
+        productDetails.add(6, Double.toString(admin_cost));
+        productDetails.add(7, Integer.toString(stock));
+        productDetails.add(8, Integer.toString(catalog_number));
+        productDetails.add(9, desc);
+        productDetails.add(10, image_path);
+        return productDetails;
     }
-
-    /**
-     * since every object is different and dynamic, this will be used when the object needs to be updated to the database
-     * @param queryObject the object returned by the sql query that contains all information currently stored
-     *                    in the database for that object
-     * @param conn the connection needed to update the information for this object
-     */
-    public abstract void UpdateProduct(ResultSet queryObject, Connection conn);
 }
