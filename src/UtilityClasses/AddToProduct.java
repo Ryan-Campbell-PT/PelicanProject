@@ -42,7 +42,7 @@ public class AddToProduct implements Instruction{
             for (String s : details){
                 System.out.print (s + " ");
             }
-            System.out.println ();
+            System.out.println (details.size());
 
             sqlCommand = conn.prepareStatement("INSERT INTO product_inventory" +
                     " (p_name, p_size, color, p_detail, price, admin_cost, stock, catalog_number, p_desc, image_path)" +

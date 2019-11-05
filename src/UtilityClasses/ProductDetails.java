@@ -1,5 +1,6 @@
 package UtilityClasses;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 
 import javax.xml.crypto.Data;
@@ -76,6 +77,22 @@ public class ProductDetails
 
         System.out.println("Creating new instruction.");
         AddToProduct i = new AddToProduct(prodDetails, connection);
+
+        System.out.println ("Updating the database.");
+        ModifyDatabase.updateDatabase(i);
+        prodDetails.clear();
+    }
+
+    public static void AddProductToDatabase(List<String> pd)
+    {
+        System.out.println ("Adding product details.");
+
+        //set image path: will use a default for now.
+        String defImagePath = "images/allBirdsShow.png";
+        pd.add(9, defImagePath);
+
+        System.out.println("Creating new instruction.");
+        AddToProduct i = new AddToProduct(pd, connection);
 
         System.out.println ("Updating the database.");
         ModifyDatabase.updateDatabase(i);

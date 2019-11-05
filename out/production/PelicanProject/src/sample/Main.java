@@ -2,6 +2,8 @@ package sample;
 
 import CustomPages.ItemGridPage;
 import UtilityClasses.DatabaseConnection;
+import UtilityClasses.Product;
+import UtilityClasses.ProductDetails;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -202,18 +204,18 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
-        try
-        {
-            ResultSet s = DatabaseConnection.RunSqlExecuteCommand("select * from user_information");
-            while (s.next())
-            {
-                System.out.println(s.getString("user_id"));
+        //launch(args);
+        try{
+            ProductDetails.startProductUpdates();
 
-            }
-        } catch (SQLException e)
-        {
+            ProductDetails.giveProductType("number of the beast", "Accessory");
+            ProductDetails.giveProductType("sadness", "Mask");
+
+            ProductDetails.endProductUpdates();
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
+        System.out.println("And we're done");
     }
 }

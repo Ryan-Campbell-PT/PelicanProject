@@ -32,7 +32,6 @@ public class UpdateProduct implements Instruction {
     @Override
     public boolean execute() {
         try {
-                Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement p = conn.prepareStatement("UPDATE product_inventory SET " + column + " = ? WHERE p_id = ?");
                 p.setInt(2, p_id);
 
@@ -52,7 +51,7 @@ public class UpdateProduct implements Instruction {
 
                 p.execute();
                 p.close();
-                System.out.print("Exiting");
+                System.out.println("Exiting");
                 return true;
         }
         catch (SQLException e) {
