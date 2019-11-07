@@ -90,7 +90,7 @@ public class ItemDescriptionPage
 
 //            pane.getChildren().addAll(itemImage, nameAndCostText, descriptionText, addToCartButton);
             pane.setAlignment(Pos.TOP_CENTER);
-            Main.setCenterPane(this.pane);
+            MainPage.setCenterPane(this.pane);
 /**
  * these "setTop/Left/Right/BottomAnchor functions set the Nodes anchor position
  * a distance away from the sides of the whole scene. So setting the Top anchor to
