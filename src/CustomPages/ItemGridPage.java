@@ -38,7 +38,7 @@ public class ItemGridPage
         String sql;
         //if the search term is null, then its just the generic grid view, with everything showing
         if(searchTerm == null)
-            sql = "SELECT p_name, price, p_id FROM product_inventory";
+            sql = "SELECT p_name, price, p_id FROM product_inventory;";
         else //if its a specific search term, then we are just going to display what we are looking for
             sql = "SELECT p_name, price, p_id \n" +
                     "FROM product_inventory \n" +
@@ -57,7 +57,13 @@ public class ItemGridPage
                 //Need to figure out how to associate image and item
                // String image = resultSet.getString("ItemImage"); //no idea how this will be done
 
-                ImageView tmpImage = new ImageView(new Image( new FileInputStream("images/allBirdsShoe.png")));
+                String image = null; ///resultSet.getString("image_path");
+                ImageView tmpImage;
+                if(image == null || image.isEmpty())
+                     tmpImage = new ImageView(new Image( new FileInputStream("images/allBirdsShoe.png")));
+                else
+                    tmpImage = new ImageView(new Image( new FileInputStream(image)));
+
                 //if(image != null && !image.isEmpty())
                 //    tmpImage = new ImageView(new Image(new FileInputStream(image)));
                // else

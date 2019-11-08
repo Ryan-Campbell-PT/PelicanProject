@@ -1,6 +1,7 @@
 package CustomPages;
 
 import UtilityClasses.DatabaseConnection;
+import UtilityClasses.ShoppingCart;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -24,7 +25,6 @@ import java.util.HashMap;
 
 /**
  * this page will contain all the info that is related to an item
- * todo: figure out which kind of page would be best for something like this
  */
 public class ItemDescriptionPage
 {
@@ -54,11 +54,11 @@ public class ItemDescriptionPage
             String itemNameAndPrice = itemName + "\t\t\t$" + resultSet.getString("price");
             String itemDesc = resultSet.getString("p_desc");
             String itemColor = "Color: " + resultSet.getString("color");
-            //images dont work atm
-//            String image = resultSet.getString("ItemImage");
-//            itemImage = new ImageView(new Image(new FileInputStream(image)));
-            itemImage =  new ImageView(new Image(new FileInputStream("images/dressShoe.jpg")));
-            //etc...
+            String image = null; //resultSet.getString("image_path");
+            if(image == null || image.isEmpty())
+                itemImage =  new ImageView(new Image(new FileInputStream("images/allBirdsShoe.png")));
+            else
+                itemImage =  new ImageView(new Image(new FileInputStream(image)));
 
             textToDisplay.add(itemNameAndPrice);
             textToDisplay.add(itemColor);
@@ -86,59 +86,20 @@ public class ItemDescriptionPage
 //            Text descriptionText = new Text(itemDescription);
 
             Button addToCartButton = new Button("Add to cart");
-            addToCartButton.setOnMouseClicked(event -> addToCart());
+            addToCartButton.setOnMouseClicked(event ->
+            {
+                if(ShoppingCart.addItemToCart(Integer.parseInt(this.itemUniqueId)))
+                    System.out.println("item suc added to cart");
+                else
+                    System.out.println("item not added to cart");
+            });
 
 //            pane.getChildren().addAll(itemImage, nameAndCostText, descriptionText, addToCartButton);
             pane.setAlignment(Pos.TOP_CENTER);
             MainPage.setCenterPane(this.pane);
-/**
- * these "setTop/Left/Right/BottomAnchor functions set the Nodes anchor position
- * a distance away from the sides of the whole scene. So setting the Top anchor to
- * 0.0 puts the item at the top of the scene, and setting the left anchor to 0.0
- * puts the item in the top left corner of the screen
- */
-
-/*
-            //i dont really know how these anchor things work
-            AnchorPane.setTopAnchor(itemImage, 0.0);
-            AnchorPane.setRightAnchor(itemImage, 0.0);
-            AnchorPane.setBottomAnchor(itemImage, 500.0);
-            AnchorPane.setRightAnchor(itemImage, 500.0);
-            Text itemName = new Text("Item name");
-            AnchorPane.setTopAnchor(itemName, 150.0);
-            AnchorPane.setLeftAnchor(itemName, 500.0);
-            AnchorPane.setBottomAnchor(itemName, 500.0);
-            AnchorPane.setRightAnchor(itemName, 500.0);
-
-            Text itemCost = new Text("cost: $20");
-            AnchorPane.setTopAnchor(itemCost, 200.0);
-            AnchorPane.setLeftAnchor(itemCost, 500.0);
-            AnchorPane.setBottomAnchor(itemCost, 500.0);
-            AnchorPane.setRightAnchor(itemCost, 500.0);
-
-            Text itemDescription = new Text("this is the item description \n im not sure why its up here");
-            AnchorPane.setTopAnchor(itemCost, 200.0);
-            AnchorPane.setLeftAnchor(itemCost, 500.0);
-            AnchorPane.setBottomAnchor(itemCost, 500.0);
-            AnchorPane.setRightAnchor(itemCost, 500.0);
-
-
-            pane.getChildren().addAll(itemImage, itemCost, itemName, itemDescription);
-*/
-
 
         } catch(Exception e) { e.printStackTrace(); }
 
         return pane;
-    }
-
-    private void addToCart()
-    {
-        /*String sql = "INSERT INTO shoppingcarttmp (userid, itemid, DateTimeAdded) \n" +
-                "VALUES (floor(rand() * (999999 - 100000) + 100000), " + this.itemUniqueId +
-                ", CURRENT_TIME() ); ";
-        if(DatabaseConnection.RunSqlCreateCommand(sql))
-            System.out.println("Successfully executed AddToCart");*/
-
     }
 }

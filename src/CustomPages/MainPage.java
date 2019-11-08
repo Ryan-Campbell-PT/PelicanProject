@@ -95,9 +95,11 @@ public class MainPage
         HBox topPanel = null;
         try
         {
+            //back button
             Button backButton = new Button("<-");
             backButton.setOnMouseClicked(event -> goBack());
 
+            //search stuff
             TextField searchBar = new TextField();
             searchBar.setOnAction(new EventHandler<ActionEvent>()
             {
@@ -109,6 +111,8 @@ public class MainPage
             });
 
             Button searchButton = new Button("Press to search");
+
+            // user profile
             ImageView userProfilePic = new ImageView(
                     new Image(
                             new FileInputStream("images\\googleImage.png")));
