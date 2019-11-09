@@ -1,6 +1,7 @@
 package sample;
 
 import CustomPages.ItemGridPage;
+import CustomPages.LoginPage;
 import UtilityClasses.DatabaseConnection;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -35,11 +36,15 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception{
         Main.stage = stage;
 //        generalStructure(stage);
-        generalStructure(stage, null);
-
+//        generalStructure(stage, null);
+        LoginPage login = new LoginPage();
+        login.setupPage();
     }
 
-    void generalStructure(Stage stage, Pane p)
+    public static void generalStructureStatic(Stage stage, Pane p){
+
+    }
+    public void generalStructure(Stage stage, Pane p)
     {
         Main.pane = new BorderPane(null, getTop(), null, null, getLeft());
         //all these helper functions are just to make this function a lot less crowded

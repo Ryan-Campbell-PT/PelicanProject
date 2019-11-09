@@ -12,9 +12,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
-import sample.entry_point;
+import sample.Main;
 
 import static java.lang.Thread.sleep;
+
+//import sample.entry_point;
 
 public class LoginPage {
     public TilePane pane = new TilePane(Orientation.VERTICAL);
@@ -55,8 +57,10 @@ public class LoginPage {
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
-                    UserProfilePage userProfilePage = new UserProfilePage();
-                    userProfilePage.setupPage(customer_tmp);
+//                    UserProfilePage userProfilePage = new UserProfilePage();
+//                    userProfilePage.setupPage(customer_tmp);
+                    Main main = new Main();
+                    main.generalStructure(Main.stage , null);
                 }
                 else{
                     password.clear();
@@ -95,9 +99,9 @@ public class LoginPage {
         pane.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(pane , 400 , 300);
-        entry_point.stage.setTitle("Pelican Shop: Login");
-        entry_point.stage.setScene(scene);
-        entry_point.stage.show();
+        Main.stage.setTitle("Pelican Shop: Login");
+        Main.stage.setScene(scene);
+        Main.stage.show();
     }
 
 }
