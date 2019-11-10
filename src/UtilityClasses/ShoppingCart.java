@@ -54,7 +54,7 @@ public class ShoppingCart
     {
         pane = new VBox(30.0);
 
-        String pIdSql = "(SELECT p_id FROM shoppingcart WHERE pid = getUserId())";
+        String pIdSql = "SELECT p_id FROM shoppingcart WHERE pid = getUserId()";
         ResultSet productResultSet = DatabaseConnection.RunSqlExecuteCommand(pIdSql);
         try
         {

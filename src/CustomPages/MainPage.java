@@ -3,8 +3,10 @@ package CustomPages;
 import UtilityClasses.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -115,14 +117,16 @@ public class MainPage
             // user profile
             ImageView userProfilePic = new ImageView(
                     new Image(
-                            new FileInputStream("images\\googleImage.png")));
-            Button userProfileButton = new Button("this button could be used as their avatar image", userProfilePic);
-            userProfileButton.setAlignment(Pos.TOP_RIGHT);
+                            new FileInputStream("images/avatarIcon.png")));
+            userProfilePic.setFitWidth(50); userProfilePic.setFitHeight(50);
+
+            //profile button
+            Button userProfileButton = new Button("", userProfilePic);
             //TODO TO QUIN/DAKOTA
             userProfileButton.setOnMouseClicked(event -> { /*this is where you would bring up the UserProfilePage */});
 
             //no need to touch this, just be sure to add whatever
-            topPanel = new HBox(10, backButton, searchBar, searchButton, userProfileButton);
+            topPanel = new HBox(20, backButton, searchBar, searchButton, userProfileButton);
             topPanel.setPadding(new Insets(0, 0, 40, 0));
 
         } catch(Exception e) { e.printStackTrace(); }
