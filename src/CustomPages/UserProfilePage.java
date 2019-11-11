@@ -3,13 +3,12 @@ package CustomPages;
 import UtilityClasses.Customer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import sample.entry_point;
+import sample.Main;
 
 import static java.lang.Thread.sleep;
 
@@ -57,6 +56,7 @@ public class UserProfilePage {
             clearTextFields();
         };
         EventHandler<ActionEvent> delete_event = e -> {
+//            dia
             this.current_customer.DeleteAccount();
             try {
                 sleep(1000);
@@ -87,10 +87,10 @@ public class UserProfilePage {
         pane.setLeft(user_icon);
         pane.setCenter(pane_information);
 
-        Scene scene = new Scene(pane , 600 , 450);
-        entry_point.stage.setTitle("Pelican Shop: Profile");
-        entry_point.stage.setScene(scene);
-        entry_point.stage.show();
+//        Scene scene = new Scene(pane , 600 , 450);
+//        Main.stage.setTitle("Pelican Shop: Profile");
+        Main.setCenterPane(pane);
+        Main.stage.show();
     }
 
     private void clearTextFields() {

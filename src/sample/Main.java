@@ -2,6 +2,8 @@ package sample;
 
 import CustomPages.ItemGridPage;
 import CustomPages.LoginPage;
+import CustomPages.UserProfilePage;
+import UtilityClasses.Customer;
 import UtilityClasses.DatabaseConnection;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -31,6 +33,7 @@ public class Main extends Application {
 
     public static Stage stage = null;
     static BorderPane pane;
+    static Customer current_customer = null;
 
     @Override
     public void start(Stage stage) throws Exception{
@@ -41,11 +44,9 @@ public class Main extends Application {
         login.setupPage();
     }
 
-    public static void generalStructureStatic(Stage stage, Pane p){
-
-    }
-    public void generalStructure(Stage stage, Pane p)
+    public void generalStructure(Stage stage, Pane p, Customer c)
     {
+        this.current_customer = c;
         Main.pane = new BorderPane(null, getTop(), null, null, getLeft());
         //all these helper functions are just to make this function a lot less crowded
         if(p == null)
@@ -131,18 +132,21 @@ public class Main extends Application {
                 @Override
                 public void handle(ActionEvent event)
                 {
-                    generalStructure(Main.stage, new ItemGridPage(searchBar.getCharacters().toString()).pane);
+                    generalStructure(Main.stage, new ItemGridPage(searchBar.getCharacters().toString()).pane , current_customer);
                 }
             });
 
             Button searchButton = new Button("Press to search");
-            ImageView userProfilePic = new ImageView(
-                    new Image(
-                            new FileInputStream("images\\googleImage.png")));
-            Button userProfileButton = new Button("this button could be used as their avatar image", userProfilePic);
+//            ImageView userProfilePic = new ImageView(String.valueOf(current_customer.userprofile.getUserImage(String.valueOf(current_customer.customerId))));
+            Button userProfileButton = new Button("this button could be used as their avatar image");
             userProfileButton.setAlignment(Pos.TOP_RIGHT);
+            EventHandler<ActionEvent> profile_event = e -> {
+                UserProfilePage userProfilePage = new UserProfilePage();
+                userProfilePage.setupPage(this.current_customer);
+            };
+            userProfileButton.setOnAction(profile_event);
 
-            topPanel = new HBox(10, searchBar, searchButton, userProfileButton);
+            topPanel = new HBox(10, userProfileButton, searchBar, searchButton);
             topPanel.setPadding(new Insets(0, 0, 40, 0));
 
         } catch(Exception e) { e.printStackTrace(); }

@@ -2,7 +2,6 @@ package CustomPages;
 
 import UtilityClasses.DatabaseConnection;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -50,7 +49,7 @@ public class ItemGridPage
         try
         {
             for(int count = 0; resultSet.next() && count < 20; count++) //just display 20 at most for now
-            {
+                {
                 String name = resultSet.getString("p_name");
                 String itemId = resultSet.getString("p_id");
                 String cost = resultSet.getString("price"); //maybe string depending on our database

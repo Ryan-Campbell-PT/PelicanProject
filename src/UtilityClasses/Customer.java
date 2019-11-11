@@ -4,8 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Customer implements Actor {
-    private ShoppingCart cart;
-    private int customerId;
+    public ShoppingCart cart;
+    public int customerId;
 
     private String email = null;
     private String password = null;
@@ -90,7 +90,7 @@ public class Customer implements Actor {
         boolean result = false;
         ResultSet sql_resultset;
         String sql = String.format("SELECT user_id FROM user_information " +
-                "WHERE e_addr='%s' AND pass = '%s';", this.email, this.password);
+                "WHERE e_addr='%s' AND BINARY pass = '%s';", this.email, this.password);
         sql_resultset = DatabaseConnection.RunSqlExecuteCommand(sql);
         try {
             if (sql_resultset.next()) {
@@ -153,5 +153,10 @@ public class Customer implements Actor {
 
     public void DeleteAccount() {
         this.userprofile.deleteAccount(this.customerId);
+    }
+
+    public void setPassword(String p){
+        this.password = p;
+        return;
     }
 }
