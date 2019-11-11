@@ -152,4 +152,27 @@ public class UserProfile{
             System.out.println(String.format("Unable to delete user with 'user_id' of %d" , u_id));
         }
     }
+    public boolean getAccessLevel(int u_id){
+        boolean result = false;
+        ResultSet sql_result_set;
+        String sql;
+        sql = String.format("SELECT a_level FROM user_information WHERE user_id=%d;" , u_id);
+        sql_result_set = DatabaseConnection.RunSqlExecuteCommand(sql);
+        try {
+            if(sql_result_set.next()){
+                if(sql_result_set.getInt("a_level") == 1) {
+                    System.out.println(String.format("User with 'user_id' of %d accessed admin panel.", u_id));
+                    result = true;
+                }
+            }
+            else{
+                    System.out.println(String.format("User with 'user_id' of %d was denied access to admin panel." , u_id));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            return result;
+        }
+    }
 }

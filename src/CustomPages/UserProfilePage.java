@@ -3,17 +3,16 @@ package CustomPages;
 import UtilityClasses.Customer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import static java.lang.Thread.sleep;
+import java.util.Optional;
 
 public class UserProfilePage {
     private BorderPane pane = new BorderPane();
+    private Stage prev_stage = null;
     private Customer current_customer;
     private Label f_name_current;
     private Label l_name_current;
@@ -24,8 +23,9 @@ public class UserProfilePage {
     private TextField p_addr_new;
     private TextField pass_new;
 
-    public UserProfilePage(Customer c){
+    public UserProfilePage(Customer c, Stage s){
         this.current_customer = c;
+        this.prev_stage = s;
         setupPage();
     }
 
@@ -34,9 +34,10 @@ public class UserProfilePage {
     }
 
     public void setupPage(){
-        Button user_icon = new Button("*image*");
+//        Button user_icon = new Button("*image*");
 //        user_icon.setGraphic(new ImageView(current_customer.userprofile.getUserImage(current_customer.getEmail())));
         Button user_update = new Button("Send Update");
+        Button product_CRUD = new Button("Product CRUD");
         Button user_delete = new Button("Delete account?");
 
         String[] user_data_current = current_customer.userprofile.getUserInfo(current_customer.getEmail());
@@ -59,18 +60,37 @@ public class UserProfilePage {
             String last_name = l_name_new.getText();
             String physical_address = p_addr_new.getText();
             String password = pass_new.getText();
+            if(first_name.equals("")){
+                first_name = f_name_current.getText();
+            }
+            if(last_name.equals("")){
+                last_name = l_name_current.getText();
+            }
+            if(physical_address.equals("")){
+                physical_address = p_addr_current.getText();
+            }
+            if(password.equals("")){
+                password = pass_current.getText();
+            }
             this.current_customer.UpdateInfo(new String[]{first_name, last_name, physical_address, password, null});
             updateLabels();
             clearTextFields();
         };
         EventHandler<ActionEvent> delete_event = e -> {
-            this.current_customer.DeleteAccount();
-            try {
-                sleep(1000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
+            Alert aaaaa = new Alert(Alert.AlertType.CONFIRMATION);
+            aaaaa.setContentText("Are you sure you want to delete your account?");
+            Optional<ButtonType> result = aaaaa.showAndWait();
+            if (result.get() == ButtonType.OK){
+                this.current_customer.DeleteAccount();
+                System.exit(0);
             }
-            new LoginPage(new Stage());
+        };
+
+        EventHandler<ActionEvent> product_CRUD_event = e -> {
+            if(this.current_customer.userprofile.getAccessLevel(this.current_customer.getCustomerId())){
+                ManageStore tmp = new ManageStore();
+                 MainPage.setCenterPane(tmp.start());
+            }
         };
 
         GridPane pane_information = new GridPane();
@@ -85,12 +105,14 @@ public class UserProfilePage {
         pane_information.add(pass_current , 0 , 3);
         pane_information.add(pass_new , 1 , 3 );
         pane_information.add(user_update, 3 ,3);
-        pane_information.add(user_delete, 4 ,4);
+        pane_information.add(user_delete, 3 ,4);
+        pane_information.add(product_CRUD, 4 ,4);
 
         user_update.setOnAction(update_event);
         user_delete.setOnAction(delete_event);
+        product_CRUD.setOnAction(product_CRUD_event);
 
-        pane.setLeft(user_icon);
+//        pane.setLeft(user_icon);
         pane.setCenter(pane_information);
     }
 

@@ -105,6 +105,10 @@ public class Customer implements Actor {
         }
     }
 
+    public void setPassword(String s){
+        this.password = s;
+    }
+
     @SuppressWarnings("SpellCheckingInspection")
     public static boolean Signup(String username, String password) {
         String sql = "SELECT * FROM user_information WHERE e_addr = '" + username + "'";

@@ -54,6 +54,7 @@ public class LoginPage {
             this.username = username.getText();
             this.password = password.getText();
             Customer customer_tmp = Customer.getCustomer(this.username);
+            customer_tmp.setPassword(this.password);
             /**
              * if username exists, test the username and password combo
              * if ^, allow user access to next screen
