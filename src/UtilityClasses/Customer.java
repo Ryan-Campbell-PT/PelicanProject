@@ -4,8 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Customer implements Actor {
-    public ShoppingCart cart;
-    public int customerId;
+    private ShoppingCart cart;
+    private int customerId;
 
     private String email = null;
     private String password = null;
@@ -153,10 +153,5 @@ public class Customer implements Actor {
 
     public void DeleteAccount() {
         this.userprofile.deleteAccount(this.customerId);
-    }
-
-    public void setPassword(String p){
-        this.password = p;
-        return;
     }
 }

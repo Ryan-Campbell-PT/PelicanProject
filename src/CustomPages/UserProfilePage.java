@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import sample.Main;
+import javafx.stage.Stage;
 
 import static java.lang.Thread.sleep;
 
@@ -24,8 +24,16 @@ public class UserProfilePage {
     private TextField p_addr_new;
     private TextField pass_new;
 
-    public void setupPage(Customer cur_customer){
-        this.current_customer = cur_customer;
+    public UserProfilePage(Customer c){
+        this.current_customer = c;
+        setupPage();
+    }
+
+    public BorderPane getPane(){
+        return this.pane;
+    }
+
+    public void setupPage(){
         Button user_icon = new Button("*image*");
 //        user_icon.setGraphic(new ImageView(current_customer.userprofile.getUserImage(current_customer.getEmail())));
         Button user_update = new Button("Send Update");
@@ -56,15 +64,13 @@ public class UserProfilePage {
             clearTextFields();
         };
         EventHandler<ActionEvent> delete_event = e -> {
-//            dia
             this.current_customer.DeleteAccount();
             try {
                 sleep(1000);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
-            LoginPage loginPage = new LoginPage();
-            loginPage.setupPage();
+            new LoginPage(new Stage());
         };
 
         GridPane pane_information = new GridPane();
@@ -86,11 +92,6 @@ public class UserProfilePage {
 
         pane.setLeft(user_icon);
         pane.setCenter(pane_information);
-
-//        Scene scene = new Scene(pane , 600 , 450);
-//        Main.stage.setTitle("Pelican Shop: Profile");
-        Main.setCenterPane(pane);
-        Main.stage.show();
     }
 
     private void clearTextFields() {

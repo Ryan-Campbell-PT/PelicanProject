@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  *
- **/
+**/
 public class AddToProduct implements Instruction{
 
     //Product_inventory schema
@@ -15,42 +15,68 @@ public class AddToProduct implements Instruction{
     //price (double), admin_cost (double), stock (int), catalog_number (int), p_desc (String), p_imagePath (String)
     private List<String> details;
     private PreparedStatement sqlCommand;
+    private Connection conn;
+
+
 
     /**
      * Constructor. Assumes that d is in the correct format of the schema, which is
      * p_id, p_name, p_size, color, p_detail, price, admin_cost, stock, catalog_number, p_desc, p_imagePath
      * @param d list of new product details
+     * @param conn the connection
      */
-    public AddToProduct (List<String> d){
+    AddToProduct(List<String> d, Connection conn){
         this.details = d;
+        this.conn = conn;
     }
 
     /**
      * Opens the database connection, runs the helper method to create the SQL command, closes the database connection
      */
     @Override
-    public void execute() {
+    public boolean execute() {
+        System.out.println ("Executing AddToProduct");
         try {
-            Connection conn = DatabaseConnection.getConnection();
-            sqlCommand = conn.prepareStatement("INSERT INTO product_inventory VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            sqlCommand.setInt (1, Integer.parseInt(details.get(0)));
+            System.out.println ("Adding: ");
+            for (String s : details){
+                System.out.print (s + " ");
+            }
+            System.out.println ();
+
+            sqlCommand = conn.prepareStatement("INSERT INTO product_inventory" +
+                    " (p_name, p_size, color, p_detail, price, admin_cost, stock, catalog_number, p_desc, image_path)" +
+                    "  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            //Is it a valid string?
+            sqlCommand.setString (1, details.get(0));
+            //Actually a string?
             sqlCommand.setString (2, details.get(1));
+            //Actually a string?
             sqlCommand.setString (3, details.get(2));
+            //Actually a string?
             sqlCommand.setString (4, details.get(3));
-            sqlCommand.setString (5, details.get(4));
+            //Positive number?
+            sqlCommand.setDouble (5, Double.parseDouble(details.get(4)));
+            //Positive number?
             sqlCommand.setDouble (6, Double.parseDouble(details.get(5)));
-            sqlCommand.setDouble (7, Double.parseDouble(details.get(6)));
+            //Positive number?
+            sqlCommand.setInt (7, Integer.parseInt(details.get(6)));
+            //Optional
             sqlCommand.setInt (8, Integer.parseInt(details.get(7)));
-            sqlCommand.setInt (9, Integer.parseInt(details.get(8)));
+            //Optional
+            sqlCommand.setString (9, details.get(8));
+            //Image exist?
             sqlCommand.setString (10, details.get(9));
-            sqlCommand.setString (11, details.get(10));
             sqlCommand.execute();
             sqlCommand.close();
-            conn.close();
+
+            System.out.println ("Exiting");
         }
         catch (SQLException e){
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -70,7 +96,6 @@ public class AddToProduct implements Instruction{
                 + ", " + details.get(7)
                 + ", " + details.get(8)
                 + ", " + details.get(9)
-                + ", " + details.get(10)
                 + ")";
     }
 }

@@ -104,7 +104,7 @@ public class UserProfile{
         String sql;
         ResultSet sql_result;
 
-        sql = "SELECT u_icon FROM user_information WHERE user_id=" + user_id + ";";
+        sql = "SELECT u_icon FROM user_information WHERE u_id=" + user_id + ";";
         sql_result = DatabaseConnection.RunSqlExecuteCommand(sql);
 
         if(sql_result == null) {
@@ -112,7 +112,7 @@ public class UserProfile{
             User image not found, given default image
             */
             try {
-                url = new URL("http://eggserver.info/public/user_icons/default_user_image.png");
+                url = new URL("eggserver.info/public/default_user_image.png");
                 icon = ImageIO.read(url);
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -127,14 +127,12 @@ public class UserProfile{
                 //spec is currently not really implemented, just placeholder.
                 String user_icon_path = PATH_TO_SHARE;
                 try {
-                    if(sql_result.next()) {
-                        user_icon_path.concat(sql_result.getString("u_icon"));
-                    }
-
+                    sql_result.next();
+                    user_icon_path.concat(sql_result.getString("u_icon"));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                url = new URL(user_icon_path);
+                url = new URL("eggserver.info/public/some_user_image.png");
                 icon = ImageIO.read(url);
             } catch (IOException e1) {
                 e1.printStackTrace();

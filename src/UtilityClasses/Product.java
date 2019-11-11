@@ -1,23 +1,24 @@
 package UtilityClasses;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * created as abstract because it allows us to do basic things like shared methods that
- * an interface doesnt allow
+ * Class stores all of the information that a product can hold.
+ * Will be used as more of a big storage
  */
 public class Product
 {
-    //Product_inventory schema
-    //p_id (int), p_name (String), p_size (String), color (String), p_detail (String),
-    //price (double), admin_cost (double), stock (int), catalog_number (int), p_desc (String), p_imagePath (String)
+    /**Product_inventory schema
+     *p_id (int), p_name (String), p_size (String), color (String), p_detail (String),
+     *price (double), admin_cost (double), stock (int), catalog_number (int), p_desc (String), p_imagePath (String)
+     */
 
-    private List <String> productDetails;
+    private List <String> productDetails = new ArrayList<>();
 
     private int p_id;
     public int getId() { return p_id; }
-    public void setId (int id) {this.p_id = id;}
 
     private Image image;
     protected void setImage(Image i) { this.image = i; }
@@ -62,10 +63,18 @@ public class Product
     public String getDesc () {return desc;}
     public void setDesc (String desc) {this.desc = desc;}
 
+    /**
+     * For whatever reason, in case it needs to pass itself around
+     * @return product
+     */
     public Product getProduct(){
         return this;
     }
 
+    /**
+     * In case the product needs to recreate itself / needs all the details on the fly
+     * @return List of all product_details
+     */
     public List<String> getProductDetails(){
         productDetails.add (0, Integer.toString(p_id));
         productDetails.add(1, p_name);

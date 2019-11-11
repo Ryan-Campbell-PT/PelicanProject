@@ -10,23 +10,37 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
-import sample.Main;
+import javafx.stage.Stage;
+
+import java.awt.*;
 
 import static java.lang.Thread.sleep;
-
-//import sample.entry_point;
 
 public class LoginPage {
     public TilePane pane = new TilePane(Orientation.VERTICAL);
     private String username = null;
     private String password = null;
-    private byte[] password_sha256;
+    private Stage prev_stage = null;
+
+    public LoginPage(Stage stage)
+    {
+        this.prev_stage = stage;
+        setupPane();
+        Scene scene = new Scene(pane,
+                Toolkit.getDefaultToolkit().getScreenSize().width / 2.0,
+                Toolkit.getDefaultToolkit().getScreenSize().height / 2.0);
+
+        scene.setOnKeyPressed(event -> { if(event.getCode() == KeyCode.ESCAPE) stage.close(); } );
+        stage.setScene(scene);
+        stage.show();
+    }
 
     /** METHODS */
 
-    public void setupPage(){
+    public void setupPane(){
         Label group_name = new Label("Pelican Shop");
         TextField username = new TextField();
         username.setPromptText("Enter email address");
@@ -39,15 +53,7 @@ public class LoginPage {
         EventHandler<ActionEvent> login_event = e -> {
             this.username = username.getText();
             this.password = password.getText();
-/*            try {
-                MessageDigest md = MessageDigest.getInstance("SHA-256");
-                this.password_sha256 = md.digest(password.getText().getBytes("UTF-8"));
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-                ex.printStackTrace();
-            }*/
             Customer customer_tmp = Customer.getCustomer(this.username);
-            customer_tmp.setPassword(this.password);
-//            customer_tmp.setPassword(this.password_sha256.toString());
             /**
              * if username exists, test the username and password combo
              * if ^, allow user access to next screen
@@ -58,16 +64,15 @@ public class LoginPage {
                 login_status.setText("Username password combination were not found.");
             }else{
                 if(customer_tmp.Login()){
+                    /*Goto gridstore with Customer object passed on
+                    * for now goto user profile*/
                     login_status.setText("Login Successful");
                     try {
                         sleep(1000);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
-//                    UserProfilePage userProfilePage = new UserProfilePage();
-//                    userProfilePage.setupPage(customer_tmp);
-                    Main main = new Main();
-                    main.generalStructure(Main.stage , null, customer_tmp);
+                    new MainPage(this.prev_stage, customer_tmp);
                 }
                 else{
                     password.clear();
@@ -78,15 +83,8 @@ public class LoginPage {
         EventHandler<ActionEvent> signup_event = e -> {
             this.username = username.getText();
             this.password = password.getText();
-/*            try {
-                MessageDigest md = MessageDigest.getInstance("SHA-256");
-                this.password_sha256 = md.digest(password.getText().getBytes("UTF-8"));
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-                ex.printStackTrace();
-            }*/
             boolean signup_result;
             signup_result = Customer.Signup(this.username , this.password);
-//            signup_result = Customer.Signup(this.username , this.password_sha256.toString());
             if(!signup_result){
                 password.clear();
                 login_status.setText("Cannot use your input to sign you up.");
@@ -111,11 +109,5 @@ public class LoginPage {
         pane.getChildren().add(button_box);
         pane.getChildren().add(login_status);
         pane.setAlignment(Pos.CENTER);
-
-        Scene scene = new Scene(pane , 400 , 300);
-        Main.stage.setTitle("Pelican Shop: Login");
-        Main.stage.setScene(scene);
-        Main.stage.show();
     }
-
 }

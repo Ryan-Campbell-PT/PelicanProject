@@ -1,6 +1,6 @@
 package UtilityClasses;
 
 public interface Instruction {
-    void execute();
+    boolean execute();
     String getInstruction();
 }

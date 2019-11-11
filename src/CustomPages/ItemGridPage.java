@@ -49,7 +49,7 @@ public class ItemGridPage
         try
         {
             for(int count = 0; resultSet.next() && count < 20; count++) //just display 20 at most for now
-                {
+            {
                 String name = resultSet.getString("p_name");
                 String itemId = resultSet.getString("p_id");
                 String cost = resultSet.getString("price"); //maybe string depending on our database
