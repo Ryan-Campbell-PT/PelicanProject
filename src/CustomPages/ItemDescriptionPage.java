@@ -48,9 +48,9 @@ public class ItemDescriptionPage
             String itemDesc = resultSet.getString("p_desc");
             String itemColor = "Color: " + resultSet.getString("color");
             //images dont work atm
-//            String image = resultSet.getString("ItemImage");
-//            itemImage = new ImageView(new Image(new FileInputStream(image)));
-            itemImage =  new ImageView(new Image(new FileInputStream("images/dressShoe.jpg")));
+            String image = resultSet.getString("image_path");
+            itemImage = new ImageView(new Image(new FileInputStream(image))); //new
+//            itemImage =  new ImageView(new Image(new FileInputStream("images/dressShoe.jpg"))); //old
             //etc...
 
             textToDisplay.add(itemNameAndPrice);

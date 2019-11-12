@@ -54,13 +54,24 @@ public class ItemGridPage
                 String itemId = resultSet.getString("p_id");
                 String cost = resultSet.getString("price"); //maybe string depending on our database
                 //Need to figure out how to associate image and item
-               // String image = resultSet.getString("ItemImage"); //no idea how this will be done
+                String image = resultSet.getString("image_path"); //no idea how this will be done
 
+                /* bs before
                 ImageView tmpImage = new ImageView(new Image( new FileInputStream("images/allBirdsShoe.png")));
+                tmpImage.setFitHeight(300); tmpImage.setFitWidth(300); //make all the images the same size
+                 */
+//                ImageView tmpImage = new ImageView(new Image( new FileInputStream("images/allBirdsShoe.png")));
                 //if(image != null && !image.isEmpty())
                 //    tmpImage = new ImageView(new Image(new FileInputStream(image)));
                // else
                 //    tmpImage = new ImageView(new Image(new FileInputStream("images\\logo.png")));
+
+//                tmpImage.setFitHeight(300); tmpImage.setFitWidth(300); //make all the images the same size
+
+                //bs after
+                ImageView tmpImage = new ImageView(new Image( new FileInputStream(image)));
+                if(tmpImage == null)
+                    tmpImage = tmpImage = new ImageView(new Image( new FileInputStream("images/allBirdsShoe.png")));
 
                 tmpImage.setFitHeight(300); tmpImage.setFitWidth(300); //make all the images the same size
 
