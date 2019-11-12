@@ -58,7 +58,7 @@ public class ProductDetails
      * @param cat Catalog
      * @param desc Description
      */
-    public static void AddProductToDatabase(String n, String s, String c, String d, String p, String cost, String st, String cat, String desc)
+    public static boolean AddProductToDatabase(String n, String s, String c, String d, String p, String cost, String st, String cat, String desc)
     {
         System.out.println ("Adding product details.");
         prodDetails.add(0, n);
@@ -78,7 +78,7 @@ public class ProductDetails
         AddToProduct i = new AddToProduct(prodDetails, connection);
 
         System.out.println ("Updating the database.");
-        ModifyDatabase.updateDatabase(i);
+        return ModifyDatabase.updateDatabase(i);
     }
 
     /**
@@ -90,18 +90,19 @@ public class ProductDetails
      * @param col existing column name in
      * @param up value that the column is being updated to
      */
-    public static void updateProduct (int pid, String col, String up){
+    public static boolean updateProduct (int pid, String col, String up){
         UpdateProduct i = new UpdateProduct(pid, col, up, connection);
-        ModifyDatabase.updateDatabase(i);
+        return ModifyDatabase.updateDatabase(i);
     }
 
     /**
      * Creates an instruction to remove a product from the Product_inventory table based on a single p_id
      * @param pid product_id
      */
-    public static void removeProduct (int pid){
+    public static boolean removeProduct (int pid){
         RemoveProduct i = new RemoveProduct(pid, connection);
-        ModifyDatabase.updateDatabase(i);
+        return ModifyDatabase.updateDatabase(i);
+
     }
 
     /**
@@ -109,9 +110,9 @@ public class ProductDetails
      * @param name product_name
      * @param type product_type
      */
-    public static void giveProductType (String name, String type){
+    public static boolean giveProductType (String name, String type){
         GiveType i = new GiveType (name, type, connection);
-        ModifyDatabase.updateDatabase(i);
+        return ModifyDatabase.updateDatabase(i);
     }
 
     /**
@@ -119,9 +120,9 @@ public class ProductDetails
      * @param name product_name
      * @param type product_type
      */
-    public static void updateProductType (String name, String type){
+    public static boolean updateProductType (String name, String type){
         UpdateProductCat i = new UpdateProductCat(name, type, connection);
-        ModifyDatabase.updateDatabase(i);
+        return ModifyDatabase.updateDatabase(i);
     }
 
 

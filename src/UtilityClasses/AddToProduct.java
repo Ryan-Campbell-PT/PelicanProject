@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -18,7 +19,6 @@ public class AddToProduct implements Instruction{
     private List<String> details;
     private PreparedStatement sqlCommand;
     private Connection conn;
-    private int productSchemaLength = 11;       // Number of columns for a product
     private boolean validInstruction;
 
 
@@ -56,48 +56,53 @@ public class AddToProduct implements Instruction{
     public boolean verifyDBInstruction() {
         try {
 
+            //----------------------------------------
             // Setup
-            Double tmpDouble;
-            Integer tmpInteger;
+            //----------------------------------------
+
+            int Schemalength = 10;
+            VerificationAndChecking vc = new VerificationAndChecking();
+
 
             //----------------------------------------
-            // Verify details length against known columns
+            // Verify details length against known columns - doesn't work for now
             //----------------------------------------
+
             ResultSet rs = DatabaseConnection.RunSqlExecuteCommand(
                     "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'product_inventory'");
             int len;
+
             if (rs == null) throw new SQLException();
             rs.last();    // moves cursor to the last row
             len = rs.getRow(); // get row id
-            if (len != details.size()) return false;
 
-            if(details.size() != productSchemaLength) return false;
+            if (len - 1 != details.size()) return false;
+
+            if (Schemalength != details.size()) return false;
 
             //----------------------------------------
             // Verify each element of details against expected order
             //----------------------------------------
-            // p_id (int)               - 0
-            tmpInteger = Integer.parseInt(details.get(0));     // If fails, throws exception which is caught below
 
-            // p_name (String)          - 1
-            // p_size (String)          - 2
-            // color (String)           - 3
-            // p_detail (String)        - 4
+            // p_name (String)          - 0
+            // p_size (String)          - 1
+            // color (String)           - 2
+            // p_detail (String)        - 3
 
-            // price (double)           - 5
-            tmpDouble = Double.parseDouble(details.get(5));
+            // price (double)           - 4
+            if(!vc.isDouble(details.get(4))) return false;      // Calls a regex check on a double given as a string
 
-            // admin_cost (double)      - 6
-            tmpDouble = Double.parseDouble(details.get(6));
+            // admin_cost (double)      - 5
+            if(!vc.isDouble(details.get(5))) return false;
 
-            // stock (int)              - 7
-            tmpInteger = Integer.parseInt(details.get(7));
+            // stock (int)              - 6
+            if(!vc.isInteger(details.get(6))) return false;
 
-            // catalog_number (int)     - 8
-            tmpInteger = Integer.parseInt(details.get(8));
+            // catalog_number (int)     - 7
+            if(!vc.isInteger(details.get(7))) return false;
 
-            // p_desc (String)
-            // p_imagePath (String)
+            // p_desc (String)          - 8
+            // p_imagePath (String)     - 9
 
         } catch (Exception e) {
             // Converting one of our Strings to an int or double has failed, thus it was improperly entered

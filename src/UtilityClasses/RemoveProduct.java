@@ -3,6 +3,7 @@ package UtilityClasses;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 
 public class RemoveProduct implements Instruction {
 
@@ -74,6 +75,21 @@ public class RemoveProduct implements Instruction {
         // Verify non negative p_id
         //----------------------------------------
         if(p_id < 0) return false;
+
+        //----------------------------------------
+        // Verify p_id is an int (seems silly, but eh)
+        //----------------------------------------
+        VerificationAndChecking vc = new VerificationAndChecking();
+        String strID = Integer.toString(p_id);
+        if(!vc.isInteger(strID)) return false;
+
+        //----------------------------------------
+        // Check if p_id exists - untested
+        //----------------------------------------
+        ResultSet rs = DatabaseConnection.RunSqlExecuteCommand(
+                "SELECT p_id FROM product_inventory WHERE p_id = " + p_id);
+        // If we haven't found the p_id, don't bother trying to remove it, might be difficult to test
+        if (rs == null) return false;
 
 
         //----------------------------------------

@@ -131,18 +131,19 @@ public class UpdateProduct implements Instruction {
             //----------------------------------------
             //p_id (int), p_name (String), p_size (String), color (String), p_detail (String),
             //price (double), admin_cost (double), stock (int), catalog_number (int), p_desc (String), p_imagePath (String)
+            VerificationAndChecking vc = new VerificationAndChecking();
             switch(cName){
                 case "p_id" :
                 case "stock" :
                 case "catalog_number" :
                     // try to parse int
-                    Integer.parseInt(change);     // If fails, throws exception which is caught below
+                    vc.isInteger(change);     // If fails, throws exception which is caught below
                     break;
 
                 case "price" :
                 case "admin_cost" :
                     // try to parse double
-                    Double.parseDouble("change");
+                    vc.isDouble(change);
                     break;
 
                 default : break;

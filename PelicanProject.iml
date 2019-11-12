@@ -45,7 +45,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="mysql-connector-java-8.0.18" level="project" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
@@ -56,5 +55,14 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="junit:junit:4.12" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/mysql-connector-java-8.0.18.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
