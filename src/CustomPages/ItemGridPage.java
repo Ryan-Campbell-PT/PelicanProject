@@ -37,9 +37,9 @@ public class ItemGridPage
         String sql;
         //if the search term is null, then its just the generic grid view, with everything showing
         if(searchTerm == null)
-            sql = "SELECT p_name, price, p_id FROM product_inventory";
+            sql = "SELECT p_name, price, p_id, image_path FROM product_inventory";
         else //if its a specific search term, then we are just going to display what we are looking for
-            sql = "SELECT p_name, price, p_id \n" +
+            sql = "SELECT p_name, price, p_id, image_path \n" +
                     "FROM product_inventory \n" +
                     "where p_name like '%" + searchTerm + "%';"; //this is pretty much a Contains()
 

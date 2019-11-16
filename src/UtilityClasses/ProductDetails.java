@@ -65,7 +65,7 @@ public class ProductDetails
         prodDetails.add(7, cat);
         prodDetails.add(8, desc);
         //set image path: will use a default for now.
-        String defImagePath = "images/allBirdsShow.png";
+        String defImagePath = "images/allBirdsShoe.png";
         prodDetails.add(9, defImagePath);
 
         System.out.println("Creating new instruction.");

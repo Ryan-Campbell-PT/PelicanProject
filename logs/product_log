@@ -1,0 +1,4 @@
+
+INSERT INTO product_inventory VALUES (a, 1, a, a, 1, 1, 1, 1, a, images/allBirdsShow.png)
+INSERT INTO product_inventory VALUES (a, 1, a, a, 1, 1, 1, 1, aaa, images/allBirdsShoe.png)
+INSERT INTO product_inventory VALUES (Hello, 1, Yes, Peopl, 0, 0, 1, 1, Hello people, images/allBirdsShoe.png)
