@@ -1,6 +1,7 @@
 package CustomPages;
 
 import UtilityClasses.Customer;
+import UtilityClasses.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
@@ -36,6 +37,7 @@ public class LoginPage {
         scene.setOnKeyPressed(event -> { if(event.getCode() == KeyCode.ESCAPE) stage.close(); } );
         stage.setScene(scene);
         stage.show();
+        primeDatabaseConnection();
     }
 
     /** METHODS */
@@ -110,5 +112,8 @@ public class LoginPage {
         pane.getChildren().add(button_box);
         pane.getChildren().add(login_status);
         pane.setAlignment(Pos.CENTER);
+    }
+    private void primeDatabaseConnection(){
+        DatabaseConnection.primeConnection();
     }
 }

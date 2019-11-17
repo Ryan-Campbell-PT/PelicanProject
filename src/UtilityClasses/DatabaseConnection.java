@@ -39,6 +39,25 @@ public class DatabaseConnection
         return conn;
     }
 
+    public static void primeConnection()
+    {
+        if(conn == null)
+        {
+            try
+            {
+                System.out.println ("Finding driver");
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                System.out.println ("Connecting to the Database");
+                conn = DriverManager.getConnection(DB_URL, "dakota", "Pelican");
+                System.out.println ("Connected");
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return;
+    }
     /**
      * Run this if you need to get a list of query results.
      * @param sql String that will be converted to SQL
